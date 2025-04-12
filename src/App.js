@@ -1,12 +1,14 @@
 import './App.css';
 import { Segment } from 'semantic-ui-react';
 import FormCliente from './views/cliente/FormCLiente';
+import FormProduto from './views/produto/FormProduto';
+import FormEntregador from './views/entregador/FormEntregador';
 
 function App() {
   return (
     <div className="App">
 
-      <FormCliente/>
+      <FormEntregador/>
 
       <div style={{ marginTop: '6%' }}>
         <Segment vertical color='grey' size='tiny' textAlign='center'>
