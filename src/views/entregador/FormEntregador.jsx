@@ -117,7 +117,7 @@ class FormEntregador extends Component {
                 <Form.Input required fluid label="Complemento" maxLengt="50" />
 
                 <Form.Group widths="equal">
-                  <label><b>Ativo:</b></label>
+                  <label><b>Ativoa:</b></label>
                   <FormRadio
                     label="Sim"
                     value="sm"
