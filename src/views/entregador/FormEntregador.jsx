@@ -82,7 +82,7 @@ class FormEntregador extends Component {
                   <Form.Input width={3} label="QTD Entregas Realizadas" />
 
                   <Form.Input width={3} label="Valor Por Frete">
-                    <InputMask required mask="R$ 999,99" />
+                    <InputMask required mask="R$" />
                   </Form.Input>
                 </Form.Group>
 
