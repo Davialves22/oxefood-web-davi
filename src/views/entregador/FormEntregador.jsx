@@ -47,7 +47,7 @@ class FormEntregador extends Component {
                 <Form.Group widths="equal">
                   <Form.Input
                     required
-                    width={10}
+                    width={8}
                     label="Nome"
                     maxLength="100"
                   />
@@ -64,7 +64,7 @@ class FormEntregador extends Component {
                 {/* Informações Pessoais2 */}
                 <Form.Group widths="equal">
                   <Form.Input
-                    width={10}
+                    width={2}
                     label="DT Nascimento"
                     placeholder="EX: 20/03/1985"
                   >
@@ -88,7 +88,7 @@ class FormEntregador extends Component {
 
                 {/* RUA*/}
                 <Form.Group widths="equal">
-                  <Form.Input width={10} label="Rua" />
+                  <Form.Input width={12} label="Rua" />
 
                   <Form.Input required width={3} label="Número" />
                 </Form.Group>
@@ -116,8 +116,8 @@ class FormEntregador extends Component {
 
                 <Form.Input required fluid label="Complemento" maxLengt="50" />
 
-                <Form.Group widths="equal">
-                  <label><b>Ativoa:</b></label>
+                <Form.Group widths="">
+                  <label><b>Ativo:</b></label>
                   <FormRadio
                     label="Sim"
                     value="sm"
