@@ -46,7 +46,6 @@ export default function FormProduto() {
                   label="Valor Unitário"
                   maxLengt="50"
                 >
-                  <InputMask required mask="999,99" />
                 </Form.Input>
 
                 <Form.Input
