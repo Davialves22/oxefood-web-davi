@@ -121,7 +121,7 @@ export default function FormCliente() {
                 onClick={() => salvar()}
               >
                 <Icon name="save" />
-                Salvar
+                Salvar.
               </Button>
             </div>
           </div>
