@@ -33,7 +33,7 @@ class FormEntregador extends Component {
               {" "}
               <span style={{ color: "darkgray" }}>
                 {" "}
-                Produto &nbsp;
+                Entregador &nbsp;
                 <Icon name="angle double right" size="small" />{" "}
               </span>{" "}
               Cadastro{" "}
