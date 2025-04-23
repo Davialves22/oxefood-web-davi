@@ -83,7 +83,14 @@ class FormEntregador extends Component {
               <Form>
                 {/* Informações Pessoais 1*/}
                 <Form.Group widths="equal">
-                  <Form.Input required width={8} label="Nome" maxLength="100" />
+                  <Form.Input
+                    required
+                    width={8}
+                    label="Nome"
+                    maxLength="100"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}
+                  />
 
                   <Form.Input required width={3} label="CPF">
                     <InputMask required mask="999.999.999-99" />
