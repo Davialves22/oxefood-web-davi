@@ -147,7 +147,12 @@ class FormEntregador extends Component {
                   <Form.Input width={3} label="QTD Entregas Realizadas" />
 
                   <Form.Input width={3} label="Valor Por Frete">
-                    <InputMask required mask="R$" />
+                    <InputMask
+                      required
+                      mask="R$"
+                      value={valorPorFrete}
+                      onChange={(e) => setValorPorFrete(e.target.value)}
+                    />
                   </Form.Input>
                 </Form.Group>
 
