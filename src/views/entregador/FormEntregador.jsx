@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import InputMask from "comigo-tech-react-input-mask";
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   FormRadio,
 } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
+import axios from "axios";
 
 const options = [
   { key: "", text: "", value: "" },
@@ -17,6 +18,41 @@ const options = [
   { key: "S", text: "São Paulo", value: "SP" },
   { key: "C", text: "Santa Catarina", value: "SC" },
 ];
+
+const [nome, setNome] = useState();
+const [cpf, setCpf] = useState();
+const [rg, setRg] = useState();
+const [dataNascimento, setDataNascimento] = useState();
+const [foneCelular, setFoneCelular] = useState();
+const [foneFixo, setFoneFixo] = useState();
+const [entregasRealizadas, setEntregasRealizadas] = useState();
+const [valorPorFrete, setValorPorFrete] = useState();
+const [rua, setRua] = useState();
+const [numero, setNumero] = useState();
+const [bairro, setBairro] = useState();
+const [cidade, setCidade] = useState();
+const [estado, setEstado] = useState();
+const [complemento, setComplemento] = useState();
+const [ativo, setAtivo] = useState(true);
+
+function salvar() {
+  let clienteRequest = {
+    nome: nome,
+    cpf: cpf,
+    dataNascimento: dataNascimento,
+    foneCelular: foneCelular,
+    foneFixo: foneFixo,
+  };
+
+  axios
+    .post("http://localhost:8080/api/entregador", clienteRequest)
+    .then((response) => {
+      console.log("Cliente cadastrado com sucesso.");
+    })
+    .catch((error) => {
+      console.log("Erro ao incluir o um cliente.");
+    });
+}
 
 class FormEntregador extends Component {
   state = {};
@@ -47,12 +83,7 @@ class FormEntregador extends Component {
               <Form>
                 {/* Informações Pessoais 1*/}
                 <Form.Group widths="equal">
-                  <Form.Input
-                    required
-                    width={8}
-                    label="Nome"
-                    maxLength="100"
-                  />
+                  <Form.Input required width={8} label="Nome" maxLength="100" />
 
                   <Form.Input required width={3} label="CPF">
                     <InputMask required mask="999.999.999-99" />
@@ -119,18 +150,19 @@ class FormEntregador extends Component {
                 <Form.Input required fluid label="Complemento" maxLengt="50" />
 
                 <Form.Group widths="">
-                  <label><b>Ativo:</b></label>
-                  <FormRadio
+                  <label>
+                    <b>Ativo:</b>
+                  </label>
+                  <Form.Radio
                     label="Sim"
-                    value="sm"
-                    checked={value === "sm"}
-                    onChange={this.handleChange}
+                    checked={ativo}
+                    onChange={(e) => setAtivo(true)}
                   />
-                  <FormRadio
-                    label="Não"
-                    value="nn"
-                    checked={value === "nn"}
-                    onChange={this.handleChange}
+
+                  <Form.Radio
+                    label="Sim"
+                    checked={ativo}
+                    onChange={(e) => setAtivo(true)}
                   />
                 </Form.Group>
               </Form>
