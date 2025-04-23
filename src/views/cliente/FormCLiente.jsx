@@ -98,6 +98,7 @@ export default function FormCliente() {
                 labelPosition="left"
                 color="blue"
                 floated="right"
+                onClick={() => salvar()}
               >
                 <Icon name="save" />
                 Salvar
