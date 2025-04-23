@@ -13,8 +13,8 @@ import MenuSistema from "../../MenuSistema";
 
 const options = [
   { key: "", text: "", value: "" },
-  { key: "P", text: "PE", value: "pe" },
-  { key: "S", text: "SP", value: "sp" },
+  { key: "P", text: "Pernambuco", value: "PE" },
+  { key: "S", text: "São Paulo", value: "SP" },
   { key: "C", text: "SC", value: "sc" },
 ];
 
