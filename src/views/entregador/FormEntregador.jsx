@@ -9,6 +9,7 @@ import {
   FormSelect,
   FormRadio,
 } from "semantic-ui-react";
+import MenuSistema from "../../MenuSistema";
 
 const options = [
   { key: "", text: "", value: "" },
@@ -27,6 +28,7 @@ class FormEntregador extends Component {
 
     return (
       <div>
+        <MenuSistema tela={"entregador"} />
         <div style={{ marginTop: "3%" }}>
           <Container textAlign="justified">
             <h2>
