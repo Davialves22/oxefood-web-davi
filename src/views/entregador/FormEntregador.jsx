@@ -215,9 +215,13 @@ class FormEntregador extends Component {
                   />
                 </Form.Group>
 
-                <Form.Input required fluid label="Complemento" maxLengt="50"
-                value={complemento}
-                onChange={e => setComplemento(e.target.value)}
+                <Form.Input
+                  required
+                  fluid
+                  label="Complemento"
+                  maxLengt="50"
+                  value={complemento}
+                  onChange={(e) => setComplemento(e.target.value)}
                 />
 
                 <Form.Group widths="">
@@ -227,13 +231,13 @@ class FormEntregador extends Component {
                   <Form.Radio
                     label="Sim"
                     checked={ativo}
-                    onChange={e => setAtivo(true)}
+                    onChange={(e) => setAtivo(true)}
                   />
 
                   <Form.Radio
                     label="Sim"
                     checked={!ativo}
-                    onChange={e => setAtivo(false)}
+                    onChange={(e) => setAtivo(false)}
                   />
                 </Form.Group>
               </Form>
@@ -258,6 +262,7 @@ class FormEntregador extends Component {
                   labelPosition="left"
                   color="blue"
                   floated="right"
+                  onClick={() => salvar()}
                 >
                   <Icon name="save" />
                   Salvar
