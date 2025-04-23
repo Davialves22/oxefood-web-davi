@@ -158,7 +158,12 @@ class FormEntregador extends Component {
 
                 {/* RUA*/}
                 <Form.Group widths="equal">
-                  <Form.Input width={12} label="Rua" />
+                  <Form.Input
+                    width={12}
+                    label="Rua"
+                    value={rua}
+                    onChange={(e) => setRua(e.target.value)}
+                  />
 
                   <Form.Input required width={3} label="Número" />
                 </Form.Group>
