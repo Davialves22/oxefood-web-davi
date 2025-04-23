@@ -31,6 +31,7 @@ const [rua, setRua] = useState();
 const [numero, setNumero] = useState();
 const [bairro, setBairro] = useState();
 const [cidade, setCidade] = useState();
+const [cep, setCep] = useState();
 const [estado, setEstado] = useState();
 const [complemento, setComplemento] = useState();
 const [ativo, setAtivo] = useState(true);
@@ -165,17 +166,38 @@ class FormEntregador extends Component {
                     onChange={(e) => setRua(e.target.value)}
                   />
 
-                  <Form.Input required width={3} label="Número" />
+                  <Form.Input
+                    required
+                    width={3}
+                    label="Número"
+                    value={numero}
+                    onChange={(e) => setNumero(e.target.value)}
+                  />
                 </Form.Group>
 
                 {/* Bairro */}
                 <Form.Group widths="equal">
-                  <Form.Input width={10} label="Bairro" />
+                  <Form.Input
+                    width={10}
+                    label="Bairro"
+                    value={bairro}
+                    onChange={(e) => setBairro(e.target.value)}
+                  />
 
-                  <Form.Input width={10} label="Cidade" />
+                  <Form.Input
+                    width={10}
+                    label="Cidade"
+                    value={cidade}
+                    onChange={(e) => setCidade(e.target.value)}
+                  />
 
                   <Form.Input required width={3} label="CEP">
-                    <InputMask required mask="00000-000" />
+                    <InputMask
+                      required
+                      mask="00000-000"
+                      value={cep}
+                      onChange={(e) => setCep(e.target.value)}
+                    />
                   </Form.Input>
                 </Form.Group>
 
