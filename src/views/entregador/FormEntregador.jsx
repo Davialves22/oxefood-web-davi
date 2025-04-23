@@ -15,7 +15,7 @@ const options = [
   { key: "", text: "", value: "" },
   { key: "P", text: "Pernambuco", value: "PE" },
   { key: "S", text: "São Paulo", value: "SP" },
-  { key: "C", text: "SC", value: "sc" },
+  { key: "C", text: "Santa Catarina", value: "SC" },
 ];
 
 class FormEntregador extends Component {
