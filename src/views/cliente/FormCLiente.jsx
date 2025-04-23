@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import InputMask from "comigo-tech-react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
+import axios from "axios";
 
 export default function FormCliente() {
   const [nome, setNome] = useState();
@@ -9,6 +10,25 @@ export default function FormCliente() {
   const [dataNascimento, setDataNascimento] = useState();
   const [foneCelular, setFoneCelular] = useState();
   const [foneFixo, setFoneFixo] = useState();
+
+  function salvar() {
+    let clienteRequest = {
+      nome: nome,
+      cpf: cpf,
+      dataNascimento: dataNascimento,
+      foneCelular: foneCelular,
+      foneFixo: foneFixo,
+    };
+
+    axios
+    .post("http://localhost:8080/api/cliente", clienteRequest)
+      .then((response) => {
+        console.log("Cliente cadastrado com sucesso.");
+      })
+      .catch((error) => {
+        console.log("Erro ao incluir o um cliente.");
+      });
+  }
 
   return (
     <div>
