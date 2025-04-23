@@ -207,11 +207,18 @@ class FormEntregador extends Component {
                     width={16}
                     label="UF"
                     options={options}
-                    placeholder=" "
+                    placeholder="Selecione o estado"
+                    value={estado}
+                    onChange={(e, { value }) => {
+                      setEstado(e.target.value);
+                    }}
                   />
                 </Form.Group>
 
-                <Form.Input required fluid label="Complemento" maxLengt="50" />
+                <Form.Input required fluid label="Complemento" maxLengt="50"
+                value={complemento}
+                onChange={e => setComplemento(e.target.value)}
+                />
 
                 <Form.Group widths="">
                   <label>
@@ -220,13 +227,13 @@ class FormEntregador extends Component {
                   <Form.Radio
                     label="Sim"
                     checked={ativo}
-                    onChange={(e) => setAtivo(true)}
+                    onChange={e => setAtivo(true)}
                   />
 
                   <Form.Radio
                     label="Sim"
-                    checked={ativo}
-                    onChange={(e) => setAtivo(true)}
+                    checked={!ativo}
+                    onChange={e => setAtivo(false)}
                   />
                 </Form.Group>
               </Form>
