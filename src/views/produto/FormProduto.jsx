@@ -1,9 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import InputMask from "comigo-tech-react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
+import axios from "axios";
 
 export default function FormProduto() {
+  const [titulo, setTitulo] = useState();
+  const [codigo, setCodigo] = useState();
+  const [descricao, setDescricao] = useState();
+  const [valorUnitario, setValorUnitario] = useState();
+  const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
+  const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
+
+  function salvar() {
+    let clienteRequest = {
+      titulo: titulo,
+      codigo: codigo,
+      descricao: descricao,
+      valorUnitario: valorUnitario,
+      tempoEntregaMinimo: tempoEntregaMinimo,
+      tempoEntregaMaximo: tempoEntregaMaximo,
+    };
+
+    axios
+      .post("http://localhost:8080/api/produto", clienteRequest)
+      .then((response) => {
+        console.log("Produto cadastrado com sucesso.");
+      })
+      .catch((error) => {
+        console.log("Erro ao incluir o Produto no sistema.");
+      });
+  }
+
   return (
     <div>
       <MenuSistema tela={"produto"} />
@@ -29,10 +57,17 @@ export default function FormProduto() {
                   width={10}
                   label="Título"
                   maxLength="100"
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
                 />
 
                 <Form.Input required width={3} label="Código do Produto">
-                  <InputMask required mask="999.999.999-99" />
+                  <InputMask
+                    required
+                    mask="999.999.999-99"
+                    value={codigo}
+                    onChange={(e) => setCodigo(e.target.value)}
+                  />
                 </Form.Input>
               </Form.Group>
 
@@ -43,6 +78,8 @@ export default function FormProduto() {
                   label="Descrição"
                   placeholder=""
                   maxLength="500"
+                  value={descricao}
+                  onChange={(e) => setDescricao(e.target.value)}
                 />
               </Form.Group>
 
@@ -52,6 +89,8 @@ export default function FormProduto() {
                   width={6}
                   label="Valor Unitário"
                   maxLengt="50"
+                  value={valorUnitario}
+                  onChange={(e) => setValorUnitario(e.target.value)}
                 ></Form.Input>
 
                 <Form.Input
@@ -59,6 +98,8 @@ export default function FormProduto() {
                   width={6}
                   label="Tempo de Entrega em Minutos"
                   maxLengt="50"
+                  value={tempoEntregaMinimo}
+                  onChange={(e) => setTempoEntregaMinimo(e.target.value)}
                 />
 
                 <Form.Input
@@ -66,6 +107,8 @@ export default function FormProduto() {
                   width={6}
                   label="Tempo de Entrega Máximo em Minutos"
                   maxLengt="50"
+                  value={tempoEntregaMaximo}
+                  onChange={(e) => setTempoEntregaMaximo(e.target.value)}
                 />
               </Form.Group>
             </Form>
@@ -90,6 +133,7 @@ export default function FormProduto() {
                 labelPosition="left"
                 color="blue"
                 floated="right"
+                onClick={() => salvar()}
               >
                 <Icon name="save" />
                 Salvar
