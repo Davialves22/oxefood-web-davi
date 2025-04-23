@@ -93,11 +93,21 @@ class FormEntregador extends Component {
                   />
 
                   <Form.Input required width={3} label="CPF">
-                    <InputMask required mask="999.999.999-99" />
+                    <InputMask
+                      required
+                      mask="999.999.999-99"
+                      value={cpf}
+                      onChange={(e) => setCpf(e.target.value)}
+                    />
                   </Form.Input>
 
                   <Form.Input width={3} label="RG">
-                    <InputMask required mask="99.999.999" />
+                    <InputMask
+                      required
+                      mask="99.999.999"
+                      value={rg}
+                      onChange={(e) => setRg(e.target.value)}
+                    />
                   </Form.Input>
                 </Form.Group>
 
@@ -108,7 +118,12 @@ class FormEntregador extends Component {
                     label="DT Nascimento"
                     placeholder="EX: 20/03/1985"
                   >
-                    <InputMask required mask="00/00/0000" />
+                    <InputMask
+                      required
+                      mask="00/00/0000"
+                      value={dataNascimento}
+                      onChange={(e) => setDataNascimento(e.target.value)}
+                    />
                   </Form.Input>
 
                   <Form.Input required width={3} label="Fone Celular">
