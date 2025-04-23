@@ -127,11 +127,21 @@ class FormEntregador extends Component {
                   </Form.Input>
 
                   <Form.Input required width={3} label="Fone Celular">
-                    <InputMask required mask="(00) 00000-0000" />
+                    <InputMask
+                      required
+                      mask="(00) 00000-0000"
+                      value={foneCelular}
+                      onChange={(e) => setFoneCelular(e.target.value)}
+                    />
                   </Form.Input>
 
                   <Form.Input width={3} label="Fone Fixo">
-                    <InputMask required mask="(00) 00000-0000" />
+                    <InputMask
+                      required
+                      mask="(00) 00000-0000"
+                      value={foneFixo}
+                      onChange={(e) => setFoneFixo(e.target.value)}
+                    />
                   </Form.Input>
 
                   <Form.Input width={3} label="QTD Entregas Realizadas" />
