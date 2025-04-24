@@ -41,11 +41,22 @@ const FormEntregador = () => {
   
   const salvar = () => {
     const clienteRequest = {
-      nome,
-      cpf,
-      dataNascimento,
-      foneCelular,
-      foneFixo,
+      nome: nome,
+      cpf: cpf,
+      rg: rg,
+      dataNascimento: dataNascimento,
+      foneCelular: foneCelular,
+      foneFixo: foneFixo,
+      entregasRealizadas: entregasRealizadas,
+      valorPorFrete: valorPorFrete,
+      rua: rua,
+      numero: numero,
+      bairro: bairro,
+      cidade: cidade,
+      cep: cep,
+      estado: estado,
+      complemento: complemento,
+      ativo: ativo,
     };
 
     axios
