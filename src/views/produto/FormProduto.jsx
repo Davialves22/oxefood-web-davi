@@ -13,7 +13,7 @@ export default function FormProduto() {
   const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
 
   function salvar() {
-    let clienteRequest = {
+    let produtoRequest = {
       titulo: titulo,
       codigo: codigo,
       descricao: descricao,
@@ -23,7 +23,7 @@ export default function FormProduto() {
     };
 
     axios
-      .post("http://localhost:8080/api/produto", clienteRequest)
+      .post("http://localhost:8080/api/produto", produtoRequest)
       .then((response) => {
         console.log("Produto cadastrado com sucesso.");
       })

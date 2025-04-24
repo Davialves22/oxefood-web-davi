@@ -26,44 +26,44 @@ const FormEntregador = () => {
   const [dataNascimento, setDataNascimento] = useState("");
   const [foneCelular, setFoneCelular] = useState("");
   const [foneFixo, setFoneFixo] = useState("");
-  const [entregasRealizadas, setEntregasRealizadas] = useState("");
-  const [valorPorFrete, setValorPorFrete] = useState("");
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
-  const [bairro, setBairro] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [cep, setCep] = useState("");
-  const [estado, setEstado] = useState("");
-  const [complemento, setComplemento] = useState("");
+  const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState("");
+  const [valorFrete, setValorFrete] = useState("");
+  const [enderecoRua, setEnderecoRua] = useState("");
+  const [enderecoNumero, setEnderecoNumero] = useState("");
+  const [enderecoBairro, setEnderecoBairro] = useState("");
+  const [enderecoCidade, setEnderecoCidade] = useState("");
+  const [enderecoCep, setEnderecoCep] = useState("");
+  const [enderecoUf, setEnderecoUf] = useState("");
+  const [enderecoComplemento, setEnderecoComplemento] = useState("");
   const [ativo, setAtivo] = useState(true);
 
   const salvar = () => {
-    const clienteRequest = {
+    const entregadorRequest = {
       nome: nome,
       cpf: cpf,
       rg: rg,
       dataNascimento: dataNascimento,
       foneCelular: foneCelular,
       foneFixo: foneFixo,
-      entregasRealizadas: entregasRealizadas,
-      valorPorFrete: valorPorFrete,
-      rua: rua,
-      numero: numero,
-      bairro: bairro,
-      cidade: cidade,
-      cep: cep,
-      estado: estado,
-      complemento: complemento,
+      qtdEntregasRealizadas: qtdEntregasRealizadas,
+      valorFrete: valorFrete,
+      enderecoRua: enderecoRua,
+      enderecoNumero: enderecoNumero,
+      enderecoBairro: enderecoBairro,
+      enderecoCidade: enderecoCidade,
+      enderecoCep: enderecoCep,
+      enderecoUf: enderecoUf,
+      enderecoComplemento: enderecoComplemento,
       ativo: ativo,
     };
 
     axios
-      .post("http://localhost:8080/api/entregador", clienteRequest)
+      .post("http://localhost:8080/api/entregador", entregadorRequest)
       .then((response) => {
-        console.log("Cliente cadastrado com sucesso.");
+        console.log("Entregador cadastrado com sucesso.");
       })
       .catch((error) => {
-        console.log("Erro ao incluir o cliente.");
+        console.log("Erro ao incluir o Entregador.");
       });
   };
 
@@ -129,7 +129,7 @@ const FormEntregador = () => {
                 <Form.Input required width={3} label="Fone Celular">
                   <InputMask
                     required
-                    mask="(00) 00000-0000"
+                    mask="(99) 99999-9999"
                     value={foneCelular}
                     onChange={(e) => setFoneCelular(e.target.value)}
                   />
@@ -138,7 +138,7 @@ const FormEntregador = () => {
                 <Form.Input width={3} label="Fone Fixo">
                   <InputMask
                     required
-                    mask="(00) 00000-0000"
+                    mask="(99) 99999-9999"
                     value={foneFixo}
                     onChange={(e) => setFoneFixo(e.target.value)}
                   />
@@ -147,16 +147,16 @@ const FormEntregador = () => {
                 <Form.Input
                   width={3}
                   label="QTD Entregas Realizadas"
-                  value={entregasRealizadas}
-                  onChange={(e) => setEntregasRealizadas(e.target.value)}
+                  value={qtdEntregasRealizadas}
+                  onChange={(e) => setQtdEntregasRealizadas(e.target.value)}
                 />
 
                 <Form.Input width={3} label="Valor Por Frete">
                   <InputMask
                     required
-                    mask="R$"
-                    value={valorPorFrete}
-                    onChange={(e) => setValorPorFrete(e.target.value)}
+                    mask="R$99,99"
+                    value={valorFrete}
+                    onChange={(e) => setValorFrete(e.target.value)}
                   />
                 </Form.Input>
               </Form.Group>
@@ -166,16 +166,16 @@ const FormEntregador = () => {
                 <Form.Input
                   width={12}
                   label="Rua"
-                  value={rua}
-                  onChange={(e) => setRua(e.target.value)}
+                  value={enderecoRua}
+                  onChange={(e) => setEnderecoRua(e.target.value)}
                 />
 
                 <Form.Input
                   required
                   width={3}
                   label="Número"
-                  value={numero}
-                  onChange={(e) => setNumero(e.target.value)}
+                  value={enderecoNumero}
+                  onChange={(e) => setEnderecoNumero(e.target.value)}
                 />
               </Form.Group>
 
@@ -184,23 +184,23 @@ const FormEntregador = () => {
                 <Form.Input
                   width={10}
                   label="Bairro"
-                  value={bairro}
-                  onChange={(e) => setBairro(e.target.value)}
+                  value={enderecoBairro}
+                  onChange={(e) => setEnderecoBairro(e.target.value)}
                 />
 
                 <Form.Input
                   width={10}
                   label="Cidade"
-                  value={cidade}
-                  onChange={(e) => setCidade(e.target.value)}
+                  value={enderecoCidade}
+                  onChange={(e) => setEnderecoCidade(e.target.value)}
                 />
 
                 <Form.Input required width={3} label="CEP">
                   <InputMask
                     required
-                    mask="00000-000"
-                    value={cep}
-                    onChange={(e) => setCep(e.target.value)}
+                    mask="99999-999"
+                    value={enderecoCep}
+                    onChange={(e) => setEnderecoCep(e.target.value)}
                   />
                 </Form.Input>
               </Form.Group>
@@ -212,8 +212,8 @@ const FormEntregador = () => {
                   label="UF"
                   options={options}
                   placeholder="Selecione o estado"
-                  value={estado}
-                  onChange={(e, { value }) => setEstado(value)}
+                  value={enderecoUf}
+                  onChange={(e, { value }) => setEnderecoUf(value)}
                 />
               </Form.Group>
 
@@ -222,8 +222,8 @@ const FormEntregador = () => {
                 fluid
                 label="Complemento"
                 maxLength="50"
-                value={complemento}
-                onChange={(e) => setComplemento(e.target.value)}
+                value={enderecoComplemento}
+                onChange={(e) => setEnderecoComplemento(e.target.value)}
               />
 
               <Form.Group widths="">
