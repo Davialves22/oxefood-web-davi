@@ -20,7 +20,6 @@ const options = [
 ];
 
 const FormEntregador = () => {
-  
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [rg, setRg] = useState("");
@@ -38,7 +37,6 @@ const FormEntregador = () => {
   const [complemento, setComplemento] = useState("");
   const [ativo, setAtivo] = useState(true);
 
-  
   const salvar = () => {
     const clienteRequest = {
       nome: nome,
@@ -118,13 +116,11 @@ const FormEntregador = () => {
 
               {/* Informações Pessoais 2 */}
               <Form.Group widths="equal">
-                <Form.Input
-                  width={2}
-                  label="DT Nascimento"
-                >
+                <Form.Input fluid label="Data Nascimento" width={6}>
                   <InputMask
-                    required
-                    mask="00/00/0000"
+                    mask="99/99/9999"
+                    maskChar={null}
+                    placeholder="Ex: 20/03/1985"
                     value={dataNascimento}
                     onChange={(e) => setDataNascimento(e.target.value)}
                   />
