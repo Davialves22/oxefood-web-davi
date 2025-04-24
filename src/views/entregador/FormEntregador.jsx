@@ -39,7 +39,7 @@ export default function FormEntregador ()  {
   const [ativo, setAtivo] = useState(true);
 
   function salvar() {
-    let entregadorRequest = {
+    let EntregadorRequest = {
       nome: nome,
       cpf: cpf,
       rg: rg,
@@ -59,7 +59,7 @@ export default function FormEntregador ()  {
     };
 
     axios
-      .post("http://localhost:8080/api/entregador", entregadorRequest)
+      .post("http://localhost:8080/api/entregador", EntregadorRequest)
       .then((response) => {
         console.log("Entregador cadastrado com sucesso.");
       })
