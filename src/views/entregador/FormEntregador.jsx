@@ -107,7 +107,11 @@ const FormEntregador = () => {
 
               {/* Informações Pessoais 2 */}
               <Form.Group widths="equal">
-                <Form.Input width={2} label="DT Nascimento" placeholder="EX: 20/03/1985">
+                <Form.Input
+                  width={2}
+                  label="DT Nascimento"
+                  placeholder="EX: 20/03/1985"
+                >
                   <InputMask
                     required
                     mask="00/00/0000"
@@ -134,7 +138,12 @@ const FormEntregador = () => {
                   />
                 </Form.Input>
 
-                <Form.Input width={3} label="QTD Entregas Realizadas" />
+                <Form.Input
+                  width={3}
+                  label="QTD Entregas Realizadas"
+                  value={entregasRealizadas}
+                  onChange={(e) => setEntregasRealizadas(e.target.value)}
+                />
 
                 <Form.Input width={3} label="Valor Por Frete">
                   <InputMask
