@@ -19,7 +19,8 @@ const options = [
   { key: "C", text: "Santa Catarina", value: "SC" },
 ];
 
-const FormEntregador = () => {
+export default function FormEntregador ()  {
+
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [rg, setRg] = useState("");
@@ -37,8 +38,8 @@ const FormEntregador = () => {
   const [enderecoComplemento, setEnderecoComplemento] = useState("");
   const [ativo, setAtivo] = useState(true);
 
-  const salvar = () => {
-    const entregadorRequest = {
+  function salvar() {
+    let entregadorRequest = {
       nome: nome,
       cpf: cpf,
       rg: rg,
@@ -264,7 +265,7 @@ const FormEntregador = () => {
                 labelPosition="left"
                 color="blue"
                 floated="right"
-                onClick={salvar}
+                onClick={() => salvar()}
               >
                 <Icon name="save" />
                 Salvar
@@ -276,5 +277,3 @@ const FormEntregador = () => {
     </div>
   );
 };
-
-export default FormEntregador;
