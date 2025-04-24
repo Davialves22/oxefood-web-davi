@@ -20,7 +20,7 @@ const options = [
 ];
 
 const FormEntregador = () => {
-  // State variables
+  
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [rg, setRg] = useState("");
@@ -38,7 +38,7 @@ const FormEntregador = () => {
   const [complemento, setComplemento] = useState("");
   const [ativo, setAtivo] = useState(true);
 
-  // Save function to make POST request
+  
   const salvar = () => {
     const clienteRequest = {
       nome,
@@ -110,7 +110,6 @@ const FormEntregador = () => {
                 <Form.Input
                   width={2}
                   label="DT Nascimento"
-                  placeholder="EX: 20/03/1985"
                 >
                   <InputMask
                     required
