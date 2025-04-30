@@ -43,7 +43,7 @@ export default function ListCliente() {
               as={Link}
               to="/form-cliente"
             />
-            ...
+            
             <br />
             <br />
             <br />
@@ -79,7 +79,7 @@ export default function ListCliente() {
                       >
                         <Icon name="edit" />
                       </Button>{" "}
-                      &nbsp; ...
+                      &nbsp; 
                       <Button
                         inverted
                         circular
