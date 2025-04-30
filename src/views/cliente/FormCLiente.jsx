@@ -3,6 +3,7 @@ import InputMask from "comigo-tech-react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function FormCliente() {
   const [nome, setNome] = useState();
@@ -21,7 +22,7 @@ export default function FormCliente() {
     };
 
     axios
-    .post("http://localhost:8080/api/cliente", clienteRequest)
+      .post("http://localhost:8080/api/cliente", clienteRequest)
       .then((response) => {
         console.log("Cliente cadastrado com sucesso.");
       })
@@ -99,17 +100,17 @@ export default function FormCliente() {
             </Form>
 
             <div style={{ marginTop: "4%" }}>
-              <Button
-                type="button"
-                inverted
-                circular
-                icon
-                labelPosition="left"
-                color="orange"
-              >
-                <Icon name="reply" />
-                Voltar
-              </Button>
+              <Link to={"/list-cliente"}>
+                <Button
+                  inverted
+                  circular
+                  icon
+                  labelPosition="left"
+                  color="orange"
+                >
+                  <Icon name="reply" /> Voltar
+                </Button>
+              </Link>
 
               <Button
                 inverted

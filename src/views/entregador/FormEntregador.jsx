@@ -11,6 +11,7 @@ import {
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 const options = [
   { key: "", text: "", value: "" },
@@ -42,11 +43,13 @@ export default function FormEntregador() {
       nome: nome,
       cpf: cpf,
       rg: rg,
-      dataNascimento: moment(dataNascimento, "DD/MM/YYYY").format("DD/MM/YYYY"),      
+      dataNascimento: moment(dataNascimento, "DD/MM/YYYY").format("DD/MM/YYYY"),
       foneCelular: foneCelular,
       foneFixo: foneFixo,
       qtdEntregasRealizadas: parseInt(qtdEntregasRealizadas || "0", 10),
-      valorFrete: parseFloat((valorFrete?.replace("R$", "").replace(",", ".")) || "0"),
+      valorFrete: parseFloat(
+        valorFrete?.replace("R$", "").replace(",", ".") || "0"
+      ),
       enderecoRua: enderecoRua,
       enderecoNumero: enderecoNumero,
       enderecoBairro: enderecoBairro,
@@ -233,17 +236,17 @@ export default function FormEntregador() {
             </Form>
 
             <div style={{ marginTop: "4%" }}>
-              <Button
-                type="button"
-                inverted
-                circular
-                icon
-                labelPosition="left"
-                color="orange"
-              >
-                <Icon name="reply" />
-                Voltar
-              </Button>
+              <Link to={"/list-cliente"}>
+                <Button
+                  inverted
+                  circular
+                  icon
+                  labelPosition="left"
+                  color="orange"
+                >
+                  <Icon name="reply" /> Voltar
+                </Button>
+              </Link>
 
               <Button
                 inverted
