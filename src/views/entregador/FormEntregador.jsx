@@ -236,7 +236,7 @@ export default function FormEntregador() {
             </Form>
 
             <div style={{ marginTop: "4%" }}>
-              <Link to={"/list-cliente"}>
+              <Link to={"/list-entregador"}>
                 <Button
                   inverted
                   circular
