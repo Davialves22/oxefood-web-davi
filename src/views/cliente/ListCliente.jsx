@@ -47,7 +47,7 @@ export default function ListCliente() {
             <br />
             <br />
             <br />
-            <Table color="orange" sortable celled>
+            <Table textAlign="center" color="orange" sortable celled>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Nome</Table.HeaderCell>
