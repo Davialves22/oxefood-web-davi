@@ -1,11 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table } from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Divider,
+  Icon,
+  Modal,
+  Table,
+} from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 
 export default function ListEntregador() {
   const [lista, setLista] = useState([]);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [entregadorSelecionado, setEntregadorSelecionado] = useState(null);
 
   useEffect(() => {
     carregarLista();
@@ -18,12 +27,14 @@ export default function ListEntregador() {
   }
 
   function formatarData(dataParam) {
-    if (dataParam === null || dataParam === "" || dataParam === undefined) {
-      return "";
-    }
+    if (!dataParam) return "";
+    const arrayData = dataParam.split("-");
+    return `${arrayData[2]}/${arrayData[1]}/${arrayData[0]}`;
+  }
 
-    let arrayData = dataParam.split("-");
-    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
+  function abrirModal(entregador) {
+    setEntregadorSelecionado(entregador);
+    setModalAberto(true);
   }
 
   return (
@@ -31,7 +42,7 @@ export default function ListEntregador() {
       <MenuSistema tela={"entregador"} />
       <div style={{ marginTop: "3%" }}>
         <Container textAlign="justified">
-          <h2> entregador </h2>
+          <h2>Entregador</h2>
           <Divider />
 
           <div style={{ marginTop: "4%" }}>
@@ -44,7 +55,6 @@ export default function ListEntregador() {
               as={Link}
               to="/form-entregador"
             />
-
             <br />
             <br />
             <br />
@@ -75,7 +85,7 @@ export default function ListEntregador() {
                         inverted
                         circular
                         color="green"
-                        title="Clique aqui para editar os dados deste entregador"
+                        title="Editar"
                         icon
                       >
                         <Icon name="edit" />
@@ -85,10 +95,21 @@ export default function ListEntregador() {
                         inverted
                         circular
                         color="red"
-                        title="Clique aqui para remover este entregador"
+                        title="Remover"
                         icon
                       >
                         <Icon name="trash" />
+                      </Button>{" "}
+                      &nbsp;
+                      <Button
+                        inverted
+                        circular
+                        color="blue"
+                        title="Ver detalhes"
+                        icon
+                        onClick={() => abrirModal(entregador)}
+                      >
+                        <Icon name="eye" />
                       </Button>
                     </Table.Cell>
                   </Table.Row>
@@ -96,6 +117,41 @@ export default function ListEntregador() {
               </Table.Body>
             </Table>
           </div>
+
+          <Modal
+            onClose={() => setModalAberto(false)}
+            open={modalAberto}
+            size="small"
+          >
+            <Modal.Header>Detalhes do Entregador</Modal.Header>
+            <Modal.Content>
+              {entregadorSelecionado && (
+                <div>
+                  <p><strong>Nome:</strong> {entregadorSelecionado.nome}</p>
+                  <p><strong>Data de Nascimento:</strong> {formatarData(entregadorSelecionado.dataNascimento)}</p>
+                  <p><strong>CPF:</strong> {entregadorSelecionado.cpf}</p>
+                  <p><strong>RG:</strong> {entregadorSelecionado.rg}</p>
+                  <p><strong>Celular:</strong> {entregadorSelecionado.foneCelular}</p>
+                  <p><strong>Fone Fixo:</strong> {entregadorSelecionado.foneFixo}</p>
+                  <p><strong>QTD Entregas:</strong> {entregadorSelecionado.qtdEntregasRealizadas}</p>
+                  <p><strong>Valor por Frete:</strong> {entregadorSelecionado.valorFrete}</p>
+                  <p><strong>Rua:</strong> {entregadorSelecionado.enderecoRua}</p>
+                  <p><strong>Número:</strong> {entregadorSelecionado.enderecoNumero}</p>
+                  <p><strong>Bairro:</strong> {entregadorSelecionado.enderecoBairro}</p>
+                  <p><strong>Cidade:</strong> {entregadorSelecionado.enderecoCidade}</p>
+                  <p><strong>CEP:</strong> {entregadorSelecionado.enderecoCep}</p>
+                  <p><strong>UF:</strong> {entregadorSelecionado.enderecoUf}</p>
+                  <p><strong>Complemento:</strong> {entregadorSelecionado.enderecoComplemento}</p>
+                  <p><strong>Ativo:</strong> {entregadorSelecionado.ativo ? "Sim" : "Não"}</p>
+                </div>
+              )}
+            </Modal.Content>
+            <Modal.Actions>
+              <Button color="black" onClick={() => setModalAberto(false)}>
+                Fechar
+              </Button>
+            </Modal.Actions>
+          </Modal>
         </Container>
       </div>
     </div>
