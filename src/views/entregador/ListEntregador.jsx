@@ -17,6 +17,15 @@ export default function ListEntregador() {
     });
   }
 
+  function formatarData(dataParam) {
+    if (dataParam === null || dataParam === "" || dataParam === undefined) {
+      return "";
+    }
+
+    let arrayData = dataParam.split("-");
+    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
+  }
+
   return (
     <div>
       <MenuSistema tela={"entregador"} />
@@ -35,7 +44,7 @@ export default function ListEntregador() {
               as={Link}
               to="/form-entregador"
             />
-            
+
             <br />
             <br />
             <br />
@@ -55,7 +64,9 @@ export default function ListEntregador() {
                 {lista.map((entregador) => (
                   <Table.Row key={entregador.id}>
                     <Table.Cell>{entregador.nome}</Table.Cell>
-                    <Table.Cell>{entregador.dataNascimento}</Table.Cell>
+                    <Table.Cell>
+                      {formatarData(entregador.dataNascimento)}
+                    </Table.Cell>
                     <Table.Cell>{entregador.cpf}</Table.Cell>
                     <Table.Cell>{entregador.rg}</Table.Cell>
                     <Table.Cell>{entregador.foneCelular}</Table.Cell>
@@ -69,7 +80,7 @@ export default function ListEntregador() {
                       >
                         <Icon name="edit" />
                       </Button>{" "}
-                      &nbsp; 
+                      &nbsp;
                       <Button
                         inverted
                         circular
