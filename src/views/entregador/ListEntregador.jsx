@@ -85,11 +85,11 @@ export default function ListEntregador() {
                         inverted
                         circular
                         color="green"
-                        title="Clique aqui para editar os dados deste cliente"
+                        title="Clique aqui para editar os dados deste Entregador"
                         icon
                       >
                         <Link
-                          to="/form-cliente"
+                          to="/form-entregador"
                           state={{ id: entregador.id }}
                           style={{ color: "green" }}
                         >

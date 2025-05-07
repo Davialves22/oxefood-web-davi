@@ -139,7 +139,7 @@ export default function FormEntregador() {
               {" "}
               <span style={{ color: "darkgray" }}>
                 {" "}
-                Cliente &nbsp;
+                Entregador &nbsp;
                 <Icon name="angle double right" size="small" />{" "}
               </span>{" "}
               Alteração
