@@ -16,6 +16,7 @@ export default function FormCliente() {
   const [foneFixo, setFoneFixo] = useState();
 
   useEffect(() => {
+    console.log("state recebido:", state);
     if (state != null && state.id != null) {
       axios
         .get("http://localhost:8080/api/cliente/" + state.id)
@@ -31,6 +32,8 @@ export default function FormCliente() {
   }, [state]);
 
   function salvar() {
+    console.log("ID do cliente no salvar():", idCliente);
+
     let clienteRequest = {
       nome: nome,
       cpf: cpf,
