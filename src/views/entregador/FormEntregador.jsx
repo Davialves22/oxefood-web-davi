@@ -45,7 +45,7 @@ export default function FormEntregador() {
     console.log("state recebido:", state);
     if (state != null && state.id != null) {
       axios
-        .get("http://localhost:8080/api/produto/" + state.id)
+        .get("http://localhost:8080/api/entregador/" + state.id)
         .then((response) => {
           setIdEntregador(response.data.id);
           setNome(response.data.nome);
@@ -69,7 +69,6 @@ export default function FormEntregador() {
         });
     }
   }, [state]);
-
 
   function salvar() {
     const entregadorRequest = {
@@ -96,7 +95,10 @@ export default function FormEntregador() {
     if (idEntregador != null) {
       //Alteração:
       axios
-        .put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
+        .put(
+          "http://localhost:8080/api/entregador/" + idEntregador,
+          entregadorRequest
+        )
         .then((response) => {
           console.log("Entregador alterado com sucesso.");
         })
@@ -121,13 +123,30 @@ export default function FormEntregador() {
       <MenuSistema tela={"entregador"} />
       <div style={{ marginTop: "3%" }}>
         <Container textAlign="justified">
-          <h2>
-            <span style={{ color: "darkgray" }}>
-              Entregador <Icon name="angle double right" size="small" />
-            </span>{" "}
-            Cadastro
-          </h2>
+          {idEntregador === undefined && (
+            <h2>
+              {" "}
+              <span style={{ color: "darkgray" }}>
+                {" "}
+                Entregador &nbsp;
+                <Icon name="angle double right" size="small" />{" "}
+              </span>{" "}
+              Cadastro
+            </h2>
+          )}
+          {idEntregador != undefined && (
+            <h2>
+              {" "}
+              <span style={{ color: "darkgray" }}>
+                {" "}
+                Cliente &nbsp;
+                <Icon name="angle double right" size="small" />{" "}
+              </span>{" "}
+              Alteração
+            </h2>
+          )}
           <Divider />
+
           <div style={{ marginTop: "4%" }}>
             <Form>
               <Form.Group widths="equal">

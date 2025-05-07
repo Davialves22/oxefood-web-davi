@@ -85,10 +85,17 @@ export default function ListEntregador() {
                         inverted
                         circular
                         color="green"
-                        title="Editar"
+                        title="Clique aqui para editar os dados deste cliente"
                         icon
                       >
-                        <Icon name="edit" />
+                        <Link
+                          to="/form-cliente"
+                          state={{ id: entregador.id }}
+                          style={{ color: "green" }}
+                        >
+                          {" "}
+                          <Icon name="edit" />{" "}
+                        </Link>
                       </Button>{" "}
                       &nbsp;
                       <Button
@@ -127,22 +134,63 @@ export default function ListEntregador() {
             <Modal.Content>
               {entregadorSelecionado && (
                 <div>
-                  <p><strong>Nome:</strong> {entregadorSelecionado.nome}</p>
-                  <p><strong>Data de Nascimento:</strong> {formatarData(entregadorSelecionado.dataNascimento)}</p>
-                  <p><strong>CPF:</strong> {entregadorSelecionado.cpf}</p>
-                  <p><strong>RG:</strong> {entregadorSelecionado.rg}</p>
-                  <p><strong>Celular:</strong> {entregadorSelecionado.foneCelular}</p>
-                  <p><strong>Fone Fixo:</strong> {entregadorSelecionado.foneFixo}</p>
-                  <p><strong>QTD Entregas:</strong> {entregadorSelecionado.qtdEntregasRealizadas}</p>
-                  <p><strong>Valor por Frete:</strong> {entregadorSelecionado.valorFrete}</p>
-                  <p><strong>Rua:</strong> {entregadorSelecionado.enderecoRua}</p>
-                  <p><strong>Número:</strong> {entregadorSelecionado.enderecoNumero}</p>
-                  <p><strong>Bairro:</strong> {entregadorSelecionado.enderecoBairro}</p>
-                  <p><strong>Cidade:</strong> {entregadorSelecionado.enderecoCidade}</p>
-                  <p><strong>CEP:</strong> {entregadorSelecionado.enderecoCep}</p>
-                  <p><strong>UF:</strong> {entregadorSelecionado.enderecoUf}</p>
-                  <p><strong>Complemento:</strong> {entregadorSelecionado.enderecoComplemento}</p>
-                  <p><strong>Ativo:</strong> {entregadorSelecionado.ativo ? "Sim" : "Não"}</p>
+                  <p>
+                    <strong>Nome:</strong> {entregadorSelecionado.nome}
+                  </p>
+                  <p>
+                    <strong>Data de Nascimento:</strong>{" "}
+                    {formatarData(entregadorSelecionado.dataNascimento)}
+                  </p>
+                  <p>
+                    <strong>CPF:</strong> {entregadorSelecionado.cpf}
+                  </p>
+                  <p>
+                    <strong>RG:</strong> {entregadorSelecionado.rg}
+                  </p>
+                  <p>
+                    <strong>Celular:</strong>{" "}
+                    {entregadorSelecionado.foneCelular}
+                  </p>
+                  <p>
+                    <strong>Fone Fixo:</strong> {entregadorSelecionado.foneFixo}
+                  </p>
+                  <p>
+                    <strong>QTD Entregas:</strong>{" "}
+                    {entregadorSelecionado.qtdEntregasRealizadas}
+                  </p>
+                  <p>
+                    <strong>Valor por Frete:</strong>{" "}
+                    {entregadorSelecionado.valorFrete}
+                  </p>
+                  <p>
+                    <strong>Rua:</strong> {entregadorSelecionado.enderecoRua}
+                  </p>
+                  <p>
+                    <strong>Número:</strong>{" "}
+                    {entregadorSelecionado.enderecoNumero}
+                  </p>
+                  <p>
+                    <strong>Bairro:</strong>{" "}
+                    {entregadorSelecionado.enderecoBairro}
+                  </p>
+                  <p>
+                    <strong>Cidade:</strong>{" "}
+                    {entregadorSelecionado.enderecoCidade}
+                  </p>
+                  <p>
+                    <strong>CEP:</strong> {entregadorSelecionado.enderecoCep}
+                  </p>
+                  <p>
+                    <strong>UF:</strong> {entregadorSelecionado.enderecoUf}
+                  </p>
+                  <p>
+                    <strong>Complemento:</strong>{" "}
+                    {entregadorSelecionado.enderecoComplemento}
+                  </p>
+                  <p>
+                    <strong>Ativo:</strong>{" "}
+                    {entregadorSelecionado.ativo ? "Sim" : "Não"}
+                  </p>
                 </div>
               )}
             </Modal.Content>
