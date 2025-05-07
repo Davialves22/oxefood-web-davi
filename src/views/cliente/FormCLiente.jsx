@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from "comigo-tech-react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function FormCliente() {
   const [nome, setNome] = useState();
@@ -11,6 +11,24 @@ export default function FormCliente() {
   const [dataNascimento, setDataNascimento] = useState();
   const [foneCelular, setFoneCelular] = useState();
   const [foneFixo, setFoneFixo] = useState();
+
+  const { state } = useLocation();
+  const [idCliente, setIdCliente] = useState();
+
+  useEffect(() => {
+    if (state != null && state.id != null) {
+      axios
+        .get("http://localhost:8080/api/cliente/" + state.id)
+        .then((response) => {
+          setIdCliente(response.data.id);
+          setNome(response.data.nome);
+          setCpf(response.data.cpf);
+          setDataNascimento(response.data.dataNascimento);
+          setFoneCelular(response.data.foneCelular);
+          setFoneFixo(response.data.foneFixo);
+        });
+    }
+  }, [state]);
 
   function salvar() {
     let clienteRequest = {
