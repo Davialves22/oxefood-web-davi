@@ -93,19 +93,27 @@ export default function FormEntregador() {
       ativo: ativo,
     };
 
-    console.log("Solicitação enviada:", entregadorRequest);
-
-    axios
-      .post("http://localhost:8080/api/entregador", entregadorRequest)
-      .then(() => {
-        console.log("Entregador cadastrado com sucesso.");
-      })
-      .catch((error) => {
-        console.error(
-          "Erro ao incluir o Entregador:",
-          error.response?.data || error.message
-        );
-      });
+    if (idEntregador != null) {
+      //Alteração:
+      axios
+        .put("http://localhost:8080/api/entregador/" + idEntregador, entregadorRequest)
+        .then((response) => {
+          console.log("Entregador alterado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao alter um Entregador.");
+        });
+    } else {
+      //Cadastro:
+      axios
+        .post("http://localhost:8080/api/entregador", entregadorRequest)
+        .then((response) => {
+          console.log("Entregador cadastrado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao incluir o Entregador.");
+        });
+    }
   }
 
   return (
