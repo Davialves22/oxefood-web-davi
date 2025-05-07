@@ -87,7 +87,7 @@ export default function FormProduto() {
               {" "}
               <span style={{ color: "darkgray" }}>
                 {" "}
-                Cliente &nbsp;
+                Produto &nbsp;
                 <Icon name="angle double right" size="small" />{" "}
               </span>{" "}
               Alteração
@@ -160,7 +160,7 @@ export default function FormProduto() {
             </Form>
 
             <div style={{ marginTop: "4%" }}>
-              <Link to={"/list-entregador"}>
+              <Link to={"/list-produto"}>
                 <Button
                   inverted
                   circular
