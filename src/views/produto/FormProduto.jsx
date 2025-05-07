@@ -1,17 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from "comigo-tech-react-input-mask";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function FormProduto() {
+  const { state } = useLocation();
+  const [idProduto, setIdProduto] = useState();
+
   const [titulo, setTitulo] = useState();
   const [codigo, setCodigo] = useState();
   const [descricao, setDescricao] = useState();
   const [valorUnitario, setValorUnitario] = useState();
   const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
   const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
+
+  useEffect(() => {
+    console.log("state recebido:", state);
+    if (state != null && state.id != null) {
+      axios
+        .get("http://localhost:8080/api/produto/" + state.id)
+        .then((response) => {
+          setIdProduto(response.data.id);
+          setTitulo(response.data.titulo);
+          setCodigo(response.data.codigo);
+          setDescricao(response.data.descricao);
+          setValorUnitario(response.data.valorUnitario);
+          setTempoEntregaMinimo(response.data.tempoEntregaMaximo);
+          setTempoEntregaMaximo(response.data.tempoEntregaMinimo);
+        });
+    }
+  }, [state]);
+
 
   function salvar() {
     let produtoRequest = {
@@ -23,14 +44,27 @@ export default function FormProduto() {
       tempoEntregaMaximo: tempoEntregaMaximo,
     };
 
-    axios
-      .post("http://localhost:8080/api/produto", produtoRequest)
-      .then((response) => {
-        console.log("Produto cadastrado com sucesso.");
-      })
-      .catch((error) => {
-        console.log("Erro ao incluir o Produto no sistema.");
-      });
+    if (idProduto != null) {
+      //Alteração:
+      axios
+        .put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
+        .then((response) => {
+          console.log("Produto alterado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao alter um produto.");
+        });
+    } else {
+      //Cadastro:
+      axios
+        .post("http://localhost:8080/api/produto", produtoRequest)
+        .then((response) => {
+          console.log("produto cadastrado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao incluir o produto.");
+        });
+    }
   }
 
   return (
