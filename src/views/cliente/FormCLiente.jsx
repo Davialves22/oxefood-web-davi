@@ -6,14 +6,14 @@ import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 
 export default function FormCliente() {
+  const { state } = useLocation();
+  const [idCliente, setIdCliente] = useState();
+
   const [nome, setNome] = useState();
   const [cpf, setCpf] = useState();
   const [dataNascimento, setDataNascimento] = useState();
   const [foneCelular, setFoneCelular] = useState();
   const [foneFixo, setFoneFixo] = useState();
-
-  const { state } = useLocation();
-  const [idCliente, setIdCliente] = useState();
 
   useEffect(() => {
     if (state != null && state.id != null) {
