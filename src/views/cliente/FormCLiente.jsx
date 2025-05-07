@@ -40,16 +40,17 @@ export default function FormCliente() {
     };
 
     if (idCliente != null) {
-      // Alteração
+      //Alteração:
       axios
         .put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
         .then((response) => {
           console.log("Cliente alterado com sucesso.");
         })
         .catch((error) => {
-          console.log("Erro ao alterar um cliente.");
+          console.log("Erro ao alter um cliente.");
         });
     } else {
+      //Cadastro:
       axios
         .post("http://localhost:8080/api/cliente", clienteRequest)
         .then((response) => {
