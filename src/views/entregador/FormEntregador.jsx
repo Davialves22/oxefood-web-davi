@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputMask from "comigo-tech-react-input-mask";
 import {
   Button,
@@ -11,7 +11,7 @@ import {
 import MenuSistema from "../../MenuSistema";
 import axios from "axios";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const options = [
   { key: "", text: "", value: "" },
@@ -21,6 +21,9 @@ const options = [
 ];
 
 export default function FormEntregador() {
+  const { state } = useLocation();
+  const [idEntregador, setIdEntregador] = useState();
+
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [rg, setRg] = useState("");
@@ -37,6 +40,36 @@ export default function FormEntregador() {
   const [enderecoUf, setEnderecoUf] = useState("");
   const [enderecoComplemento, setEnderecoComplemento] = useState("");
   const [ativo, setAtivo] = useState(true);
+
+  useEffect(() => {
+    console.log("state recebido:", state);
+    if (state != null && state.id != null) {
+      axios
+        .get("http://localhost:8080/api/produto/" + state.id)
+        .then((response) => {
+          setIdEntregador(response.data.id);
+          setNome(response.data.nome);
+          setCpf(response.data.cpf);
+          setRg(response.data.rg);
+          setDataNascimento(response.data.dataNascimento);
+          setFoneCelular(response.data.foneCelular);
+          setFoneFixo(response.data.foneFixo);
+
+          setQtdEntregasRealizadas(response.data.qtdEntregasRealizadas);
+          setValorFrete(response.data.valorFrete);
+          setEnderecoRua(response.data.enderecoRua);
+          setEnderecoNumero(response.data.enderecoNumero);
+          setEnderecoBairro(response.data.enderecoBairro);
+          setEnderecoCidade(response.data.enderecoCidade);
+          setEnderecoCep(response.data.enderecoCep);
+
+          setEnderecoUf(response.data.enderecoUf);
+          setEnderecoComplemento(response.data.enderecoComplemento);
+          setAtivo(response.data.ativo);
+        });
+    }
+  }, [state]);
+
 
   function salvar() {
     const entregadorRequest = {
