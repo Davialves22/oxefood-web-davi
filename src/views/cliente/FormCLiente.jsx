@@ -39,14 +39,26 @@ export default function FormCliente() {
       foneFixo: foneFixo,
     };
 
-    axios
-      .post("http://localhost:8080/api/cliente", clienteRequest)
-      .then((response) => {
-        console.log("Cliente cadastrado com sucesso.");
-      })
-      .catch((error) => {
-        console.log("Erro ao incluir o um cliente.");
-      });
+    if (idCliente != null) {
+      // Alteração
+      axios
+        .put("http://localhost:8080/api/cliente/" + idCliente, clienteRequest)
+        .then((response) => {
+          console.log("Cliente alterado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao alterar um cliente.");
+        });
+    } else {
+      axios
+        .post("http://localhost:8080/api/cliente", clienteRequest)
+        .then((response) => {
+          console.log("Cliente cadastrado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao incluir o cliente.");
+        });
+    }
   }
 
   function formatarData(dataParam) {
