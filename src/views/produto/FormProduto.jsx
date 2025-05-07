@@ -33,7 +33,6 @@ export default function FormProduto() {
     }
   }, [state]);
 
-
   function salvar() {
     let produtoRequest = {
       titulo: titulo,
@@ -72,16 +71,28 @@ export default function FormProduto() {
       <MenuSistema tela={"produto"} />
       <div style={{ marginTop: "3%" }}>
         <Container textAlign="justified">
-          <h2>
-            {" "}
-            <span style={{ color: "darkgray" }}>
+          {idProduto === undefined && (
+            <h2>
               {" "}
-              Produto &nbsp;
-              <Icon name="angle double right" size="small" />{" "}
-            </span>{" "}
-            Cadastro{" "}
-          </h2>
-
+              <span style={{ color: "darkgray" }}>
+                {" "}
+                Produto &nbsp;
+                <Icon name="angle double right" size="small" />{" "}
+              </span>{" "}
+              Cadastro
+            </h2>
+          )}
+          {idProduto != undefined && (
+            <h2>
+              {" "}
+              <span style={{ color: "darkgray" }}>
+                {" "}
+                Cliente &nbsp;
+                <Icon name="angle double right" size="small" />{" "}
+              </span>{" "}
+              Alteração
+            </h2>
+          )}
           <Divider />
 
           <div style={{ marginTop: "4%" }}>
