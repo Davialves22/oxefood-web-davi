@@ -53,7 +53,7 @@ export default function ListEntregador() {
               icon="clipboard outline"
               floated="right"
               as={Link}
-              to="/form-entregador"
+              to="/form-entrega dor"
             />
             <br />
             <br />
