@@ -23,7 +23,7 @@ export default function FormCliente() {
           setIdCliente(response.data.id);
           setNome(response.data.nome);
           setCpf(response.data.cpf);
-          setDataNascimento(response.data.dataNascimento);
+          setDataNascimento(formatarData(response.data.dataNascimento));
           setFoneCelular(response.data.foneCelular);
           setFoneFixo(response.data.foneFixo);
         });
@@ -47,6 +47,15 @@ export default function FormCliente() {
       .catch((error) => {
         console.log("Erro ao incluir o um cliente.");
       });
+  }
+
+  function formatarData(dataParam) {
+    if (dataParam === null || dataParam === "" || dataParam === undefined) {
+      return "";
+    }
+
+    let arrayData = dataParam.split("-");
+    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
   }
 
   return (
