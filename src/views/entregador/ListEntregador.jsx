@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   Divider,
+  Header,
   Icon,
   Modal,
   Table,
@@ -15,10 +16,17 @@ export default function ListEntregador() {
   const [lista, setLista] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [entregadorSelecionado, setEntregadorSelecionado] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [idRemover, setIdRemover] = useState();
 
   useEffect(() => {
     carregarLista();
   }, []);
+
+  function confirmaRemover(id) {
+    setOpenModal(true);
+    setIdRemover(id);
+  }
 
   function carregarLista() {
     axios.get("http://localhost:8080/api/entregador").then((response) => {
@@ -35,6 +43,22 @@ export default function ListEntregador() {
   function abrirModal(entregador) {
     setEntregadorSelecionado(entregador);
     setModalAberto(true);
+  }
+
+  async function remover() {
+    await axios
+      .delete("http://localhost:8080/api/entregador/" + idRemover)
+      .then((response) => {
+        console.log("Entregador removido com sucesso.");
+
+        axios.get("http://localhost:8080/api/entregador").then((response) => {
+          setLista(response.data);
+        });
+      })
+      .catch((error) => {
+        console.log("Erro ao remover um Entregador.");
+      });
+    setOpenModal(false);
   }
 
   return (
@@ -102,8 +126,9 @@ export default function ListEntregador() {
                         inverted
                         circular
                         color="red"
-                        title="Remover"
+                        title="Clique aqui para remover este Entregador"
                         icon
+                        onClick={(e) => confirmaRemover(entregador.id)}
                       >
                         <Icon name="trash" />
                       </Button>{" "}
@@ -124,6 +149,34 @@ export default function ListEntregador() {
               </Table.Body>
             </Table>
           </div>
+
+          <Modal
+            basic
+            onClose={() => setOpenModal(false)}
+            onOpen={() => setOpenModal(true)}
+            open={openModal}
+          >
+            <Header icon>
+              <Icon name="trash" />
+              <div style={{ marginTop: "5%" }}>
+                {" "}
+                Tem certeza que deseja remover esse registro?{" "}
+              </div>
+            </Header>
+            <Modal.Actions>
+              <Button
+                basic
+                color="red"
+                inverted
+                onClick={() => setOpenModal(false)}
+              >
+                <Icon name="remove" /> Não
+              </Button>
+              <Button color="green" inverted onClick={() => remover()}>
+                <Icon name="checkmark" /> Sim
+              </Button>
+            </Modal.Actions>
+          </Modal>
 
           <Modal
             onClose={() => setModalAberto(false)}
