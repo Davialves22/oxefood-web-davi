@@ -91,11 +91,12 @@ export default function ListCupom() {
 
               <Table.Body>
                 {lista.map((cupom) => (
-                  <Table.Row key={cupom.codigo}>
+                  <Table.Row key={cupom.id}>
+                    <Table.Cell>{cupom.codigoDesconto}</Table.Cell>
                     <Table.Cell>{cupom.percentualDesconto}</Table.Cell>
                     <Table.Cell>{cupom.valorDesconto}</Table.Cell>
                     <Table.Cell>{cupom.valorMinimoPermitido}</Table.Cell>
-                    <Table.Cell>{cupom.quantidadeMaxima}</Table.Cell>
+                    <Table.Cell>{cupom.quantidadeMaximaUso}</Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button
                         inverted
