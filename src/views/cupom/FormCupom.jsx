@@ -29,8 +29,8 @@ export default function FormCupom() {
           setValorDesconto(response.data.valorDesconto);
           setValorMinimoPermitido(response.data.valorMinimoPermitido);
           setQuantidadeMaximaUso(response.data.quantidadeMaximaUso);
-          setInicioVigencia(formatarData(response.data.inicioVigencia));
-          setFimVigencia(formatarData(response.data.fimVigencia));
+          setInicioVigencia(response.data.inicioVigencia);
+          setFimVigencia(response.data.fimVigencia);
         });
     }
   }, [state]);
@@ -69,15 +69,6 @@ export default function FormCupom() {
           console.log("Erro ao incluir o cupom.");
         });
     }
-  }
-
-  function formatarData(dataParam) {
-    if (dataParam === null || dataParam === "" || dataParam === undefined) {
-      return "";
-    }
-
-    let arrayData = dataParam.split("-");
-    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
   }
 
   return (

@@ -34,15 +34,6 @@ export default function ListCupom() {
     });
   }
 
-  function formatarData(dataParam) {
-    if (dataParam === null || dataParam === "" || dataParam === undefined) {
-      return "";
-    }
-
-    let arrayData = dataParam.split("-");
-    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
-  }
-
   function abrirModal(cupom) {
     setCupomSelecionado(cupom);
     setModalAberto(true);
@@ -103,9 +94,7 @@ export default function ListCupom() {
                   <Table.Row key={cupom.codigo}>
                     <Table.Cell>{cupom.percentualDesconto}</Table.Cell>
                     <Table.Cell>{cupom.valorDesconto}</Table.Cell>
-                    <Table.Cell>
-                      {formatarData(cupom.valorMinimoPermitido)}
-                    </Table.Cell>
+                    <Table.Cell>(cupom.valorMinimoPermitido)</Table.Cell>
                     <Table.Cell>{cupom.quantidadeMaxima}</Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button
@@ -195,7 +184,7 @@ export default function ListCupom() {
                   </p>
                   <p>
                     <strong>Percentual Desconto:</strong>{" "}
-                    {formatarData(cupomSelecionado.percentualDesconto)}
+                    (cupomSelecionado.percentualDesconto)
                   </p>
                   <p>
                     <strong>Valor do Desconto:</strong>{" "}
@@ -214,11 +203,11 @@ export default function ListCupom() {
                   </p>
                   <p>
                     <strong>Início da Vigencia:</strong>{" "}
-                    {formatarData(cupomSelecionado.inicioVigencia)}
+                    (cupomSelecionado.inicioVigencia)
                   </p>
                   <p>
                     <strong>Fim da Vigencia:</strong>{" "}
-                    {formatarData(cupomSelecionado.fimVigencia)}
+                    (cupomSelecionado.fimVigencia)
                   </p>
                 </div>
               )}
