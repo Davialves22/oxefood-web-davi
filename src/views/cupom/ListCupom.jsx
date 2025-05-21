@@ -94,7 +94,7 @@ export default function ListCupom() {
                   <Table.Row key={cupom.codigo}>
                     <Table.Cell>{cupom.percentualDesconto}</Table.Cell>
                     <Table.Cell>{cupom.valorDesconto}</Table.Cell>
-                    <Table.Cell>(cupom.valorMinimoPermitido)</Table.Cell>
+                    <Table.Cell>{cupom.valorMinimoPermitido}</Table.Cell>
                     <Table.Cell>{cupom.quantidadeMaxima}</Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button
@@ -184,7 +184,7 @@ export default function ListCupom() {
                   </p>
                   <p>
                     <strong>Percentual Desconto:</strong>{" "}
-                    (cupomSelecionado.percentualDesconto)
+                    {cupomSelecionado.percentualDesconto}
                   </p>
                   <p>
                     <strong>Valor do Desconto:</strong>{" "}
@@ -195,19 +195,16 @@ export default function ListCupom() {
                     {cupomSelecionado.valorMinimoPermitido}
                   </p>
                   <p>
-                    <strong>
-                      {" "}
-                      label="Quantidade Máxima de Uso por Cliente" :
-                    </strong>{" "}
+                    <strong> Quantidade Máxima de Uso por Cliente :</strong>{" "}
                     {cupomSelecionado.quantidadeMaximaUso}
                   </p>
                   <p>
                     <strong>Início da Vigencia:</strong>{" "}
-                    (cupomSelecionado.inicioVigencia)
+                    {cupomSelecionado.inicioVigencia}
                   </p>
                   <p>
                     <strong>Fim da Vigencia:</strong>{" "}
-                    (cupomSelecionado.fimVigencia)
+                    {cupomSelecionado.fimVigencia}
                   </p>
                 </div>
               )}
