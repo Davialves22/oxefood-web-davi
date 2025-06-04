@@ -43,40 +43,62 @@ export default function FormEndereco() {
   }, [idCliente, state]);
 
   function salvar() {
-    const enderecoRequest = {
-      endereco,
-      numero,
-      complemento,
-      bairro,
-      cidade,
-      estado,
-      cep,
-    };
+  const enderecoRequest = {
+    endereco,
+    numero,
+    complemento,
+    bairro,
+    cidade,
+    estado,
+    cep,
+  };
 
-    if (idEndereco) {
-      // Atualizar endereço
-      axios
-        .put(`http://localhost:8080/api/cliente/${idCliente}/endereco/${idEndereco}`, enderecoRequest)
-        .then(() => {
-          console.log("Endereço alterado com sucesso.");
-          navigate(`/cliente/${idCliente}`);
-        })
-        .catch(() => {
-          console.log("Erro ao alterar endereço.");
-        });
-    } else {
-      // Novo endereço
-      axios
-        .post(`http://localhost:8080/api/cliente/${idCliente}/endereco`, enderecoRequest)
-        .then(() => {
-          console.log("Endereço cadastrado com sucesso.");
-          navigate(`/cliente/${idCliente}`);
-        })
-        .catch(() => {
-          console.log("Erro ao cadastrar endereço.");
-        });
-    }
+  if (idEndereco) {
+    // Atualizar endereço
+    axios
+      .put(`http://localhost:8080/api/cliente/${idCliente}/endereco/${idEndereco}`, enderecoRequest)
+      .then(() => {
+        console.log("Endereço alterado com sucesso.");
+        navigate(`/cliente/${idCliente}`);
+      })
+      .catch((error) => {
+        if (error.response) {
+          // Erro com resposta do servidor (status, dados, headers)
+          console.error('Erro na resposta do servidor:', error.response.status);
+          console.error('Dados do erro:', error.response.data);
+          console.error('Headers:', error.response.headers);
+        } else if (error.request) {
+          // Requisição enviada mas sem resposta
+          console.error('Requisição enviada mas sem resposta:', error.request);
+        } else {
+          // Erro na configuração da requisição
+          console.error('Erro ao configurar requisição:', error.message);
+        }
+        console.error('Config da requisição:', error.config);
+      });
+  } else {
+    // Novo endereço
+    axios
+      .post(`http://localhost:8080/api/cliente/${idCliente}/endereco`, enderecoRequest)
+      .then(() => {
+        console.log("Endereço cadastrado com sucesso.");
+        navigate(`/cliente/${idCliente}`);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.error('Erro na resposta do servidor:', error.response.status);
+          console.error('Dados do erro:', error.response.data);
+          console.error('Headers:', error.response.headers);
+        } else if (error.request) {
+          console.error('Requisição enviada mas sem resposta:', error.request);
+        } else {
+          console.error('Erro ao configurar requisição:', error.message);
+        }
+        console.error('Config da requisição:', error.config);
+      });
   }
+}
+
 
   return (
     <div>
@@ -96,7 +118,7 @@ export default function FormEndereco() {
             <Form.Input
               required
               fluid
-              label="Logradouro"
+              label="Endereço"
               maxLength="150"
               value={endereco}
               onChange={(e) => setEndereco(e.target.value)}
