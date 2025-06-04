@@ -1,19 +1,21 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
   Container,
   Divider,
+  Dropdown,
   Icon,
-  Table,
   Modal,
-  Header,
+  Popup,
+  Table,
 } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 
 export default function ListCliente() {
   const [lista, setLista] = useState([]);
+  const [enderecos, setEnderecos] = useState({}); // endereços por cliente id
   const [openModal, setOpenModal] = useState(false);
   const [idRemover, setIdRemover] = useState();
 
@@ -32,25 +34,36 @@ export default function ListCliente() {
     });
   }
 
-  function formatarData(dataParam) {
-    if (dataParam === null || dataParam === "" || dataParam === undefined) {
-      return "";
-    }
+  function carregarEnderecos(idCliente) {
+    // Se já carregou endereços para esse cliente, não recarrega
+    if (enderecos[idCliente]) return;
 
-    let arrayData = dataParam.split("-");
-    return arrayData[2] + "/" + arrayData[1] + "/" + arrayData[0];
+    axios
+      .get(`http://localhost:8080/api/cliente/${idCliente}/enderecos`)
+      .then((response) => {
+        setEnderecos((prev) => ({ ...prev, [idCliente]: response.data }));
+      })
+      .catch(() => {
+        setEnderecos((prev) => ({ ...prev, [idCliente]: [] }));
+      });
   }
+
+  function formatarData(dataParam) {
+    if (!dataParam) return "";
+
+    const arrayData = dataParam.split("-");
+    if (arrayData.length !== 3) return dataParam;
+
+    return `${arrayData[2]}/${arrayData[1]}/${arrayData[0]}`;
+  }
+
   async function remover() {
     await axios
       .delete("http://localhost:8080/api/cliente/" + idRemover)
-      .then((response) => {
-        console.log("Cliente removido com sucesso.");
-
-        axios.get("http://localhost:8080/api/cliente").then((response) => {
-          setLista(response.data);
-        });
+      .then(() => {
+        carregarLista();
       })
-      .catch((error) => {
+      .catch(() => {
         console.log("Erro ao remover um cliente.");
       });
     setOpenModal(false);
@@ -86,6 +99,7 @@ export default function ListCliente() {
                   <Table.HeaderCell>Data de Nascimento</Table.HeaderCell>
                   <Table.HeaderCell>Fone Celular</Table.HeaderCell>
                   <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
+                  <Table.HeaderCell>Endereços</Table.HeaderCell>
                   <Table.HeaderCell textAlign="center">Ações</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -95,36 +109,75 @@ export default function ListCliente() {
                   <Table.Row key={cliente.id}>
                     <Table.Cell>{cliente.nome}</Table.Cell>
                     <Table.Cell>{cliente.cpf}</Table.Cell>
-                    <Table.Cell>
-                      {formatarData(cliente.dataNascimento)}
-                    </Table.Cell>
+                    <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
                     <Table.Cell>{cliente.foneCelular}</Table.Cell>
                     <Table.Cell>{cliente.foneFixo}</Table.Cell>
+                    <Table.Cell>
+                      <Dropdown
+                        pointing="top left"
+                        className="button icon"
+                        floating
+                        labeled
+                        button
+                        color="teal"
+                        icon="map marker alternate"
+                        onClick={() => carregarEnderecos(cliente.id)}
+                        text="Endereços"
+                        style={{ minWidth: "160px" }}
+                      >
+                        <Dropdown.Menu>
+                          <Dropdown.Header content="Endereços cadastrados" />
+                          {enderecos[cliente.id] && enderecos[cliente.id].length > 0 ? (
+                            enderecos[cliente.id].map((end, idx) => (
+                              <Dropdown.Item key={idx} icon="home" text={`${end.endereco}, ${end.numero}`}>
+                                <Popup
+                                  content={`${end.endereco}, ${end.numero} - ${end.bairro}, ${end.cidade} - ${end.estado}`}
+                                  position="right center"
+                                  trigger={<span style={{ cursor: "pointer", width: "100%" }} />}
+                                />
+                              </Dropdown.Item>
+                            ))
+                          ) : (
+                            <Dropdown.Item>
+                              <Button
+                                fluid
+                                color="blue"
+                                icon
+                                labelPosition="right"
+                                size="small"
+                                as={Link}
+                                to={`/form-endereco/${cliente.id}`}
+                                style={{ fontWeight: "bold" }}
+                              >
+                                <Icon name="plus circle" />
+                                Cadastrar endereço
+                              </Button>
+                            </Dropdown.Item>
+                          )}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button
                         inverted
                         circular
                         color="green"
-                        title="Clique aqui para editar os dados deste cliente"
+                        title="Editar dados deste cliente"
                         icon
+                        as={Link}
+                        to="/form-cliente"
+                        state={{ id: cliente.id }}
                       >
-                        <Link
-                          to="/form-cliente"
-                          state={{ id: cliente.id }}
-                          style={{ color: "green" }}
-                        >
-                          {" "}
-                          <Icon name="edit" />{" "}
-                        </Link>
+                        <Icon name="edit" />
                       </Button>
                       &nbsp;
                       <Button
                         inverted
                         circular
                         color="red"
-                        title="Clique aqui para remover este cliente"
+                        title="Remover este cliente"
                         icon
-                        onClick={(e) => confirmaRemover(cliente.id)}
+                        onClick={() => confirmaRemover(cliente.id)}
                       >
                         <Icon name="trash" />
                       </Button>
@@ -136,26 +189,19 @@ export default function ListCliente() {
           </div>
         </Container>
       </div>
+
       <Modal
         basic
         onClose={() => setOpenModal(false)}
         onOpen={() => setOpenModal(true)}
         open={openModal}
       >
-        <Header icon>
+        <Modal.Header>
           <Icon name="trash" />
-          <div style={{ marginTop: "5%" }}>
-            {" "}
-            Tem certeza que deseja remover esse registro?{" "}
-          </div>
-        </Header>
+          &nbsp;Tem certeza que deseja remover esse registro?
+        </Modal.Header>
         <Modal.Actions>
-          <Button
-            basic
-            color="red"
-            inverted
-            onClick={() => setOpenModal(false)}
-          >
+          <Button basic color="red" inverted onClick={() => setOpenModal(false)}>
             <Icon name="remove" /> Não
           </Button>
           <Button color="green" inverted onClick={() => remover()}>

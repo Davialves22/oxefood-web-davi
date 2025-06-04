@@ -1,15 +1,15 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import FormCliente from "./views/cliente/FormCLiente";
-import FormEntregador from "./views/entregador/FormEntregador";
-import Home from "./views/home/Home";
-import FormProduto from "./views/produto/FormProduto";
+import FormEndereco from "./views/cliente/FormEndereço";
 import ListCliente from "./views/cliente/ListCliente";
-import ListProduto from "./views/produto/ListProduto";
-import ListEntregador from "./views/entregador/ListEntregador";
 import FormCupom from "./views/cupom/FormCupom";
 import ListCupom from "./views/cupom/ListCupom";
+import FormEntregador from "./views/entregador/FormEntregador";
+import ListEntregador from "./views/entregador/ListEntregador";
+import Home from "./views/home/Home";
+import FormProduto from "./views/produto/FormProduto";
+import ListProduto from "./views/produto/ListProduto";
 
 function Rotas() {
   return (
@@ -27,6 +27,7 @@ function Rotas() {
 
         <Route path="form-cupom" element={<FormCupom />} />
         <Route path="list-cupom" element={<ListCupom />} />
+        <Route path="form-endereco" element={<FormEndereco />} />
       </Routes>
     </>
   );
