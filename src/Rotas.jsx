@@ -27,7 +27,7 @@ function Rotas() {
 
         <Route path="form-cupom" element={<FormCupom />} />
         <Route path="list-cupom" element={<ListCupom />} />
-        <Route path="form-endereco" element={<FormEndereco />} />
+        <Route path="form-endereco/:idCliente" element={<FormEndereco />} />
       </Routes>
     </>
   );
