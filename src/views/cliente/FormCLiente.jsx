@@ -30,7 +30,7 @@ export default function FormCliente() {
           setNome(response.data.nome);
           setCpf(response.data.cpf);
 
-          // Como backend já retorna dd/MM/yyyy, usa direto
+          // Backend já retorna dd/MM/yyyy? Usa direto
           setDataNascimento(response.data.dataNascimento);
 
           setFoneCelular(response.data.foneCelular);
@@ -43,7 +43,7 @@ export default function FormCliente() {
     let clienteRequest = {
       nome,
       cpf,
-      dataNascimento, // envia dd/MM/yyyy direto
+      dataNascimento,  // envia direto no formato dd/MM/yyyy
       foneCelular,
       foneFixo,
     };
@@ -61,6 +61,7 @@ export default function FormCliente() {
         });
     } else {
       // Cadastro
+      console.log("Payload do cliente:", clienteRequest);
       axios
         .post("http://localhost:8080/api/cliente", clienteRequest)
         .then((response) => {
@@ -165,54 +166,59 @@ export default function FormCliente() {
               </Button>
             </div>
 
-       {/* Pergunta se deseja cadastrar endereço */}
-{mostrarPerguntaEndereco && (
-  <div
-    style={{
-      marginTop: "2em",
-      padding: "1.5em",
-      borderRadius: "8px",
-      backgroundColor: "#e6f7ff", // azul claro suave
-      border: "1px solid #91d5ff",
-      textAlign: "center",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    }}
-  >
-    <p style={{ fontSize: "1.3em", fontWeight: "600", color: "#1890ff" }}>
-      <Icon name="map marker alternate" color="blue" /> 
-      Deseja cadastrar um endereço agora?
-    </p>
+            {/* Pergunta se deseja cadastrar endereço */}
+            {mostrarPerguntaEndereco && (
+              <div
+                style={{
+                  marginTop: "2em",
+                  padding: "1.5em",
+                  borderRadius: "8px",
+                  backgroundColor: "#e6f7ff",
+                  border: "1px solid #91d5ff",
+                  textAlign: "center",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "1.3em",
+                    fontWeight: "600",
+                    color: "#1890ff",
+                  }}
+                >
+                  <Icon name="map marker alternate" color="blue" /> Deseja
+                  cadastrar um endereço agora?
+                </p>
 
-    <Button
-      color="green"
-      icon="check"
-      content="Sim"
-      onClick={() => navigate(`/cliente/${idNovoCliente}/endereco`)}
-      style={{ marginRight: "1em", minWidth: "100px" }}
-    />
-    <Button
-      color="grey"
-      icon="close"
-      content="Não"
-      onClick={() => setMostrarPerguntaEndereco(false)}
-      style={{ minWidth: "100px" }}
-    />
-  </div>
-)}
+                <Button
+                  color="green"
+                  icon="check"
+                  content="Sim"
+                  onClick={() => navigate(`/cliente/${idNovoCliente}/endereco`)}
+                  style={{ marginRight: "1em", minWidth: "100px" }}
+                />
+                <Button
+                  color="grey"
+                  icon="close"
+                  content="Não"
+                  onClick={() => setMostrarPerguntaEndereco(false)}
+                  style={{ minWidth: "100px" }}
+                />
+              </div>
+            )}
 
-{/* Se respondeu "Não", exibe botão para cadastrar depois */}
-{clienteCadastrado && !mostrarPerguntaEndereco && (
-  <div style={{ marginTop: "2em", textAlign: "center" }}>
-    <Button
-      color="blue"
-      icon="map marker alternate"
-      content="Cadastrar Endereço"
-      onClick={() => navigate(`/cliente/${idNovoCliente}/endereco`)}
-      style={{ minWidth: "180px" }}
-    />
-  </div>
-)}
-
+            {/* Se respondeu "Não", exibe botão para cadastrar depois */}
+            {clienteCadastrado && !mostrarPerguntaEndereco && (
+              <div style={{ marginTop: "2em", textAlign: "center" }}>
+                <Button
+                  color="blue"
+                  icon="map marker alternate"
+                  content="Cadastrar Endereço"
+                  onClick={() => navigate(`/cliente/${idNovoCliente}/endereco`)}
+                  style={{ minWidth: "180px" }}
+                />
+              </div>
+            )}
           </div>
         </Container>
       </div>
