@@ -109,7 +109,9 @@ export default function ListCliente() {
                   <Table.Row key={cliente.id}>
                     <Table.Cell>{cliente.nome}</Table.Cell>
                     <Table.Cell>{cliente.cpf}</Table.Cell>
-                    <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
+                    <Table.Cell>
+                      {formatarData(cliente.dataNascimento)}
+                    </Table.Cell>
                     <Table.Cell>{cliente.foneCelular}</Table.Cell>
                     <Table.Cell>{cliente.foneFixo}</Table.Cell>
                     <Table.Cell>
@@ -127,16 +129,53 @@ export default function ListCliente() {
                       >
                         <Dropdown.Menu>
                           <Dropdown.Header content="Endereços cadastrados" />
-                          {enderecos[cliente.id] && enderecos[cliente.id].length > 0 ? (
-                            enderecos[cliente.id].map((end, idx) => (
-                              <Dropdown.Item key={idx} icon="home" text={`${end.endereco}, ${end.numero}`}>
-                                <Popup
-                                  content={`${end.endereco}, ${end.numero} - ${end.bairro}, ${end.cidade} - ${end.estado}`}
-                                  position="right center"
-                                  trigger={<span style={{ cursor: "pointer", width: "100%" }} />}
-                                />
+                          {enderecos[cliente.id] ? (
+                            enderecos[cliente.id].filter(
+                              (end) =>
+                                end.endereco && end.endereco.trim() !== ""
+                            ).length > 0 ? (
+                              enderecos[cliente.id]
+                                .filter(
+                                  (end) =>
+                                    end.endereco && end.endereco.trim() !== ""
+                                )
+                                .map((end, idx) => (
+                                  <Dropdown.Item
+                                    key={idx}
+                                    icon="home"
+                                    text={`${end.endereco}, ${end.numero}`}
+                                  >
+                                    <Popup
+                                      content={`${end.endereco}, ${end.numero} - ${end.bairro}, ${end.cidade} - ${end.uf}`}
+                                      position="right center"
+                                      trigger={
+                                        <span
+                                          style={{
+                                            cursor: "pointer",
+                                            width: "100%",
+                                          }}
+                                        />
+                                      }
+                                    />
+                                  </Dropdown.Item>
+                                ))
+                            ) : (
+                              <Dropdown.Item>
+                                <Button
+                                  fluid
+                                  color="blue"
+                                  icon
+                                  labelPosition="right"
+                                  size="small"
+                                  as={Link}
+                                  to={`/form-endereco/${cliente.id}`}
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  <Icon name="plus circle" />
+                                  Cadastrar endereço
+                                </Button>
                               </Dropdown.Item>
-                            ))
+                            )
                           ) : (
                             <Dropdown.Item>
                               <Button
@@ -201,7 +240,12 @@ export default function ListCliente() {
           &nbsp;Tem certeza que deseja remover esse registro?
         </Modal.Header>
         <Modal.Actions>
-          <Button basic color="red" inverted onClick={() => setOpenModal(false)}>
+          <Button
+            basic
+            color="red"
+            inverted
+            onClick={() => setOpenModal(false)}
+          >
             <Icon name="remove" /> Não
           </Button>
           <Button color="green" inverted onClick={() => remover()}>
