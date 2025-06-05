@@ -17,14 +17,14 @@ export default function FormEndereco() {
   const [complemento, setComplemento] = useState("");
   const [bairro, setBairro] = useState("");
   const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
+  const [estado, setEstado] = useState(""); // UF
   const [cep, setCep] = useState("");
 
   useEffect(() => {
     // Se estiver editando endereço, carregar dados
     if (state && state.idEndereco) {
       axios
-        .get(`http://localhost:8080/api/cliente/${idCliente}/endereco/${state.idEndereco}`)
+        .get(`http://localhost:8080/api/enderecocliente/${state.idEndereco}`)
         .then((response) => {
           const e = response.data;
           setIdEndereco(e.id);
@@ -33,68 +33,50 @@ export default function FormEndereco() {
           setComplemento(e.complemento || "");
           setBairro(e.bairro);
           setCidade(e.cidade);
-          setEstado(e.estado);
+          setEstado(e.uf); // Backend usa "uf"
           setCep(e.cep);
         })
         .catch(() => {
           console.log("Erro ao carregar endereço");
         });
     }
-  }, [idCliente, state]);
+  }, [state]);
 
-  function salvar() {
+ function salvar() {
   const enderecoRequest = {
     endereco,
     numero,
     complemento,
     bairro,
     cidade,
-    estado,
+    uf: estado,
     cep,
+    cliente: {
+      id: parseInt(idCliente),
+    },
   };
 
   if (idEndereco) {
     // Atualizar endereço
     axios
-      .put(`http://localhost:8080/api/cliente/${idCliente}/endereco/${idEndereco}`, enderecoRequest)
+      .put(`http://localhost:8080/api/enderecocliente/${idEndereco}`, enderecoRequest)
       .then(() => {
         console.log("Endereço alterado com sucesso.");
-        navigate(`/cliente/${idCliente}`);
+        navigate("/list-cliente");  // volta pra lista cliente direto
       })
       .catch((error) => {
-        if (error.response) {
-          // Erro com resposta do servidor (status, dados, headers)
-          console.error('Erro na resposta do servidor:', error.response.status);
-          console.error('Dados do erro:', error.response.data);
-          console.error('Headers:', error.response.headers);
-        } else if (error.request) {
-          // Requisição enviada mas sem resposta
-          console.error('Requisição enviada mas sem resposta:', error.request);
-        } else {
-          // Erro na configuração da requisição
-          console.error('Erro ao configurar requisição:', error.message);
-        }
-        console.error('Config da requisição:', error.config);
+        // tratamento de erro
       });
   } else {
-    // Novo endereço
+    // Cadastrar novo endereço
     axios
-      .post(`http://localhost:8080/api/cliente/${idCliente}/endereco`, enderecoRequest)
+      .post("http://localhost:8080/api/enderecocliente", enderecoRequest)
       .then(() => {
         console.log("Endereço cadastrado com sucesso.");
-        navigate(`/cliente/${idCliente}`);
+        navigate("/list-cliente");  // volta pra lista cliente direto
       })
       .catch((error) => {
-        if (error.response) {
-          console.error('Erro na resposta do servidor:', error.response.status);
-          console.error('Dados do erro:', error.response.data);
-          console.error('Headers:', error.response.headers);
-        } else if (error.request) {
-          console.error('Requisição enviada mas sem resposta:', error.request);
-        } else {
-          console.error('Erro ao configurar requisição:', error.message);
-        }
-        console.error('Config da requisição:', error.config);
+        // tratamento de erro
       });
   }
 }
@@ -165,7 +147,7 @@ export default function FormEndereco() {
               <Form.Input
                 required
                 fluid
-                label="Estado"
+                label="UF"
                 maxLength="2"
                 placeholder="Ex: SP"
                 value={estado}
@@ -183,17 +165,17 @@ export default function FormEndereco() {
           </Form>
 
           <div style={{ marginTop: "4%" }}>
-         <Button
-                inverted
-                circular
-                icon
-                labelPosition="left"
-                color="orange"
-                onClick={() => navigate("/list-cliente")}
-              >
-                <Icon name="reply" /> Voltar
-              </Button>
-              
+            <Button
+              inverted
+              circular
+              icon
+              labelPosition="left"
+              color="orange"
+              onClick={() => navigate("/list-cliente")}
+            >
+              <Icon name="reply" /> Voltar
+            </Button>
+
             <Button
               inverted
               circular
