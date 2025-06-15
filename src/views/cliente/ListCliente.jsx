@@ -5,28 +5,24 @@ import {
   Button,
   Container,
   Divider,
-  Dropdown,
   Icon,
+  List,
   Modal,
-  Popup,
-  Table,
+  Table
 } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 
 export default function ListCliente() {
   const [lista, setLista] = useState([]);
-  const [enderecos, setEnderecos] = useState({}); // endereços por cliente id
+  const [enderecos, setEnderecos] = useState({});
   const [openModal, setOpenModal] = useState(false);
+  const [openEnderecoModal, setOpenEnderecoModal] = useState(false);
+  const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [idRemover, setIdRemover] = useState();
 
   useEffect(() => {
     carregarLista();
   }, []);
-
-  function confirmaRemover(id) {
-    setOpenModal(true);
-    setIdRemover(id);
-  }
 
   function carregarLista() {
     axios.get("http://localhost:8080/api/cliente").then((response) => {
@@ -35,11 +31,8 @@ export default function ListCliente() {
   }
 
   function carregarEnderecos(idCliente) {
-    // Se já carregou endereços para esse cliente, não recarrega
-    if (enderecos[idCliente]) return;
-
     axios
-      .get(`http://localhost:8080/api/cliente/${idCliente}/enderecos`)
+      .get(`http://localhost:8080/api/enderecocliente/por-cliente/${idCliente}`)
       .then((response) => {
         setEnderecos((prev) => ({ ...prev, [idCliente]: response.data }));
       })
@@ -48,13 +41,15 @@ export default function ListCliente() {
       });
   }
 
-  function formatarData(dataParam) {
-    if (!dataParam) return "";
+  function abrirModalEnderecos(cliente) {
+    setClienteSelecionado(cliente);
+    carregarEnderecos(cliente.id);
+    setOpenEnderecoModal(true);
+  }
 
-    const arrayData = dataParam.split("-");
-    if (arrayData.length !== 3) return dataParam;
-
-    return `${arrayData[2]}/${arrayData[1]}/${arrayData[0]}`;
+  function confirmaRemover(id) {
+    setOpenModal(true);
+    setIdRemover(id);
   }
 
   async function remover() {
@@ -69,12 +64,19 @@ export default function ListCliente() {
     setOpenModal(false);
   }
 
+  function formatarData(dataParam) {
+    if (!dataParam) return "";
+    const arrayData = dataParam.split("-");
+    if (arrayData.length !== 3) return dataParam;
+    return `${arrayData[2]}/${arrayData[1]}/${arrayData[0]}`;
+  }
+
   return (
     <div>
       <MenuSistema tela={"cliente"} />
       <div style={{ marginTop: "3%" }}>
         <Container textAlign="justified">
-          <h2> Cliente </h2>
+          <h2>Cliente</h2>
           <Divider />
 
           <div style={{ marginTop: "4%" }}>
@@ -87,7 +89,6 @@ export default function ListCliente() {
               as={Link}
               to="/form-cliente"
             />
-
             <br />
             <br />
             <br />
@@ -100,7 +101,7 @@ export default function ListCliente() {
                   <Table.HeaderCell>Fone Celular</Table.HeaderCell>
                   <Table.HeaderCell>Fone Fixo</Table.HeaderCell>
                   <Table.HeaderCell>Endereços</Table.HeaderCell>
-                  <Table.HeaderCell textAlign="center">Ações</Table.HeaderCell>
+                  <Table.HeaderCell>Ações</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
 
@@ -109,100 +110,27 @@ export default function ListCliente() {
                   <Table.Row key={cliente.id}>
                     <Table.Cell>{cliente.nome}</Table.Cell>
                     <Table.Cell>{cliente.cpf}</Table.Cell>
-                    <Table.Cell>
-                      {formatarData(cliente.dataNascimento)}
-                    </Table.Cell>
+                    <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
                     <Table.Cell>{cliente.foneCelular}</Table.Cell>
                     <Table.Cell>{cliente.foneFixo}</Table.Cell>
                     <Table.Cell>
-                      <Dropdown
-                        pointing="top left"
-                        className="button icon"
-                        floating
-                        labeled
-                        button
+                      <Button
+                        icon
                         color="teal"
-                        icon="map marker alternate"
-                        onClick={() => carregarEnderecos(cliente.id)}
-                        text="Endereços"
-                        style={{ minWidth: "160px" }}
+                        labelPosition="left"
+                        onClick={() => abrirModalEnderecos(cliente)}
                       >
-                        <Dropdown.Menu>
-                          <Dropdown.Header content="Endereços cadastrados" />
-                          {enderecos[cliente.id] ? (
-                            enderecos[cliente.id].filter(
-                              (end) =>
-                                end.endereco && end.endereco.trim() !== ""
-                            ).length > 0 ? (
-                              enderecos[cliente.id]
-                                .filter(
-                                  (end) =>
-                                    end.endereco && end.endereco.trim() !== ""
-                                )
-                                .map((end, idx) => (
-                                  <Dropdown.Item
-                                    key={idx}
-                                    icon="home"
-                                    text={`${end.endereco}, ${end.numero}`}
-                                  >
-                                    <Popup
-                                      content={`${end.endereco}, ${end.numero} - ${end.bairro}, ${end.cidade} - ${end.uf}`}
-                                      position="right center"
-                                      trigger={
-                                        <span
-                                          style={{
-                                            cursor: "pointer",
-                                            width: "100%",
-                                          }}
-                                        />
-                                      }
-                                    />
-                                  </Dropdown.Item>
-                                ))
-                            ) : (
-                              <Dropdown.Item>
-                                <Button
-                                  fluid
-                                  color="blue"
-                                  icon
-                                  labelPosition="right"
-                                  size="small"
-                                  as={Link}
-                                  to={`/form-endereco/${cliente.id}`}
-                                  style={{ fontWeight: "bold" }}
-                                >
-                                  <Icon name="plus circle" />
-                                  Cadastrar endereço
-                                </Button>
-                              </Dropdown.Item>
-                            )
-                          ) : (
-                            <Dropdown.Item>
-                              <Button
-                                fluid
-                                color="blue"
-                                icon
-                                labelPosition="right"
-                                size="small"
-                                as={Link}
-                                to={`/form-endereco/${cliente.id}`}
-                                style={{ fontWeight: "bold" }}
-                              >
-                                <Icon name="plus circle" />
-                                Cadastrar endereço
-                              </Button>
-                            </Dropdown.Item>
-                          )}
-                        </Dropdown.Menu>
-                      </Dropdown>
+                        <Icon name="map marker alternate" />
+                        Ver Endereços
+                      </Button>
                     </Table.Cell>
                     <Table.Cell textAlign="center">
                       <Button
                         inverted
                         circular
                         color="green"
-                        title="Editar dados deste cliente"
                         icon
+                        title="Editar dados deste cliente"
                         as={Link}
                         to="/form-cliente"
                         state={{ id: cliente.id }}
@@ -214,8 +142,8 @@ export default function ListCliente() {
                         inverted
                         circular
                         color="red"
-                        title="Remover este cliente"
                         icon
+                        title="Remover este cliente"
                         onClick={() => confirmaRemover(cliente.id)}
                       >
                         <Icon name="trash" />
@@ -229,27 +157,65 @@ export default function ListCliente() {
         </Container>
       </div>
 
+      {/* Modal de confirmação de remoção */}
       <Modal
         basic
         onClose={() => setOpenModal(false)}
-        onOpen={() => setOpenModal(true)}
         open={openModal}
+        size="small"
       >
         <Modal.Header>
           <Icon name="trash" />
-          &nbsp;Tem certeza que deseja remover esse registro?
+          Tem certeza que deseja remover esse registro?
         </Modal.Header>
         <Modal.Actions>
-          <Button
-            basic
-            color="red"
-            inverted
-            onClick={() => setOpenModal(false)}
-          >
+          <Button basic color="red" inverted onClick={() => setOpenModal(false)}>
             <Icon name="remove" /> Não
           </Button>
           <Button color="green" inverted onClick={() => remover()}>
             <Icon name="checkmark" /> Sim
+          </Button>
+        </Modal.Actions>
+      </Modal>
+
+      {/* Modal com endereços do cliente */}
+      <Modal
+        onClose={() => setOpenEnderecoModal(false)}
+        open={openEnderecoModal}
+        size="tiny"
+      >
+        <Modal.Header>Endereços de {clienteSelecionado?.nome}</Modal.Header>
+        <Modal.Content scrolling>
+          <List divided relaxed>
+            {enderecos[clienteSelecionado?.id]?.length > 0 ? (
+              enderecos[clienteSelecionado.id].map((end, idx) => (
+                <List.Item key={idx}>
+                  <List.Icon name="home" size="large" verticalAlign="middle" />
+                  <List.Content>
+                    <List.Header>
+                      {end.endereco}, {end.numero}
+                    </List.Header>
+                    <List.Description>
+                      {end.bairro}, {end.cidade} - {end.uf}, {end.cep}
+                    </List.Description>
+                  </List.Content>
+                </List.Item>
+              ))
+            ) : (
+              <p>Nenhum endereço cadastrado.</p>
+            )}
+          </List>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            color="blue"
+            as={Link}
+            to={`/form-endereco/${clienteSelecionado?.id}`}
+          >
+            <Icon name="plus" /> Cadastrar novo endereço
+          </Button>
+          <Button onClick={() => setOpenEnderecoModal(false)}>
+            Fechar
           </Button>
         </Modal.Actions>
       </Modal>
