@@ -43,7 +43,7 @@ export default function FormCliente() {
     let clienteRequest = {
       nome,
       cpf,
-      dataNascimento,  // envia direto no formato dd/MM/yyyy
+      dataNascimento, // envia direto no formato dd/MM/yyyy
       foneCelular,
       foneFixo,
     };
@@ -194,7 +194,7 @@ export default function FormCliente() {
                   color="green"
                   icon="check"
                   content="Sim"
-                  onClick={() => navigate(`/cliente/${idNovoCliente}/endereco`)}
+                  onClick={() => navigate(`/form-endereco/${idNovoCliente}`)}
                   style={{ marginRight: "1em", minWidth: "100px" }}
                 />
                 <Button
@@ -214,7 +214,7 @@ export default function FormCliente() {
                   color="blue"
                   icon="map marker alternate"
                   content="Cadastrar Endereço"
-                  onClick={() => navigate(`/cliente/${idNovoCliente}/endereco`)}
+                  onClick={() => navigate(`/form-endereco/${idNovoCliente}`)}
                   style={{ minWidth: "180px" }}
                 />
               </div>
