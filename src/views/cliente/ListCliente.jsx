@@ -8,7 +8,7 @@ import {
   Icon,
   List,
   Modal,
-  Table
+  Table,
 } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 
@@ -110,7 +110,9 @@ export default function ListCliente() {
                   <Table.Row key={cliente.id}>
                     <Table.Cell>{cliente.nome}</Table.Cell>
                     <Table.Cell>{cliente.cpf}</Table.Cell>
-                    <Table.Cell>{formatarData(cliente.dataNascimento)}</Table.Cell>
+                    <Table.Cell>
+                      {formatarData(cliente.dataNascimento)}
+                    </Table.Cell>
                     <Table.Cell>{cliente.foneCelular}</Table.Cell>
                     <Table.Cell>{cliente.foneFixo}</Table.Cell>
                     <Table.Cell>
@@ -169,7 +171,12 @@ export default function ListCliente() {
           Tem certeza que deseja remover esse registro?
         </Modal.Header>
         <Modal.Actions>
-          <Button basic color="red" inverted onClick={() => setOpenModal(false)}>
+          <Button
+            basic
+            color="red"
+            inverted
+            onClick={() => setOpenModal(false)}
+          >
             <Icon name="remove" /> Não
           </Button>
           <Button color="green" inverted onClick={() => remover()}>
@@ -189,11 +196,53 @@ export default function ListCliente() {
           <List divided relaxed>
             {enderecos[clienteSelecionado?.id]?.length > 0 ? (
               enderecos[clienteSelecionado.id].map((end, idx) => (
-                <List.Item key={idx}>
+                <List.Item key={end.id}>
                   <List.Icon name="home" size="large" verticalAlign="middle" />
                   <List.Content>
-                    <List.Header>
-                      {end.endereco}, {end.numero}
+                    <List.Header
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>
+                        {end.endereco}, {end.numero}
+                      </span>
+                      <span>
+                        <Button
+                          size="mini"
+                          icon="edit"
+                          color="green"
+                          title="Editar endereço"
+                          as={Link}
+                          to={`/form-endereco/${clienteSelecionado?.id}`}
+                        />
+                        <Button
+                          size="mini"
+                          icon="trash"
+                          color="red"
+                          title="Excluir endereço"
+                          onClick={async () => {
+                            const confirm = window.confirm(
+                              "Deseja realmente excluir este endereço?"
+                            );
+                            if (confirm) {
+                              try {
+                                await axios.delete(
+                                  `http://localhost:8080/api/enderecocliente/${end.id}`
+                                );
+                                carregarEnderecos(clienteSelecionado.id); // atualiza a lista
+                              } catch (error) {
+                                console.error(
+                                  "Erro ao excluir endereço:",
+                                  error
+                                );
+                              }
+                            }
+                          }}
+                        />
+                      </span>
                     </List.Header>
                     <List.Description>
                       {end.bairro}, {end.cidade} - {end.uf}, {end.cep}
@@ -214,9 +263,7 @@ export default function ListCliente() {
           >
             <Icon name="plus" /> Cadastrar novo endereço
           </Button>
-          <Button onClick={() => setOpenEnderecoModal(false)}>
-            Fechar
-          </Button>
+          <Button onClick={() => setOpenEnderecoModal(false)}>Fechar</Button>
         </Modal.Actions>
       </Modal>
     </div>
