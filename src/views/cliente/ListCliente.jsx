@@ -36,14 +36,19 @@ export default function ListCliente() {
       .then((response) => {
         setEnderecos((prev) => ({ ...prev, [idCliente]: response.data }));
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Erro ao carregar endereços:", error);
         setEnderecos((prev) => ({ ...prev, [idCliente]: [] }));
       });
   }
 
   function abrirModalEnderecos(cliente) {
     setClienteSelecionado(cliente);
-    carregarEnderecos(cliente.id);
+    if (cliente.enderecos) {
+      setEnderecos((prev) => ({ ...prev, [cliente.id]: cliente.enderecos }));
+    } else {
+      carregarEnderecos(cliente.id);
+    }
     setOpenEnderecoModal(true);
   }
 
@@ -171,15 +176,10 @@ export default function ListCliente() {
           Tem certeza que deseja remover esse registro?
         </Modal.Header>
         <Modal.Actions>
-          <Button
-            basic
-            color="red"
-            inverted
-            onClick={() => setOpenModal(false)}
-          >
+          <Button basic color="red" inverted onClick={() => setOpenModal(false)}>
             <Icon name="remove" /> Não
           </Button>
-          <Button color="green" inverted onClick={() => remover()}>
+          <Button color="green" inverted onClick={remover}>
             <Icon name="checkmark" /> Sim
           </Button>
         </Modal.Actions>
@@ -194,8 +194,8 @@ export default function ListCliente() {
         <Modal.Header>Endereços de {clienteSelecionado?.nome}</Modal.Header>
         <Modal.Content scrolling>
           <List divided relaxed>
-            {enderecos[clienteSelecionado?.id]?.length > 0 ? (
-              enderecos[clienteSelecionado.id].map((end, idx) => (
+            {(enderecos[clienteSelecionado?.id] || []).length > 0 ? (
+              enderecos[clienteSelecionado.id].map((end) => (
                 <List.Item key={end.id}>
                   <List.Icon name="home" size="large" verticalAlign="middle" />
                   <List.Content>
@@ -218,7 +218,6 @@ export default function ListCliente() {
                           as={Link}
                           to={`/form-endereco/${clienteSelecionado?.id}/${end.id}`}
                         />
-
                         <Button
                           size="mini"
                           icon="trash"
@@ -233,12 +232,9 @@ export default function ListCliente() {
                                 await axios.delete(
                                   `http://localhost:8080/api/enderecocliente/${end.id}`
                                 );
-                                carregarEnderecos(clienteSelecionado.id); // atualiza a lista
+                                carregarEnderecos(clienteSelecionado.id);
                               } catch (error) {
-                                console.error(
-                                  "Erro ao excluir endereço:",
-                                  error
-                                );
+                                console.error("Erro ao excluir endereço:", error);
                               }
                             }
                           }}
@@ -246,7 +242,9 @@ export default function ListCliente() {
                       </span>
                     </List.Header>
                     <List.Description>
-                      {end.bairro}, {end.cidade} - {end.uf}, {end.cep}
+                      {end.bairro}, {end.cidade} - {end.uf},{" "}
+                      {end.cep || "CEP não informado"}
+                      {end.complemento && ` | Complemento: ${end.complemento}`}
                     </List.Description>
                   </List.Content>
                 </List.Item>
