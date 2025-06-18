@@ -2,27 +2,26 @@ import axios from "axios";
 import InputMask from "comigo-tech-react-input-mask";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 
 export default function FormEndereco() {
-  const { idCliente } = useParams(); // pegar id do cliente via rota
+  const { idCliente } = useParams();
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  // Estados dos campos de endereço
   const [idEndereco, setIdEndereco] = useState();
   const [endereco, setEndereco] = useState("");
   const [numero, setNumero] = useState("");
   const [complemento, setComplemento] = useState("");
   const [bairro, setBairro] = useState("");
   const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState(""); // UF
+  const [estado, setEstado] = useState("");
   const [cep, setCep] = useState("");
 
   useEffect(() => {
-    // Se estiver editando endereço, carregar dados
-    if (state && state.idEndereco) {
+    if (state?.idEndereco) {
       axios
         .get(`http://localhost:8080/api/enderecocliente/${state.idEndereco}`)
         .then((response) => {
@@ -33,54 +32,50 @@ export default function FormEndereco() {
           setComplemento(e.complemento || "");
           setBairro(e.bairro);
           setCidade(e.cidade);
-          setEstado(e.uf); // Backend usa "uf"
+          setEstado(e.uf);
           setCep(e.cep);
         })
         .catch(() => {
-          console.log("Erro ao carregar endereço");
+          toast.error("Erro ao carregar endereço.");
         });
     }
   }, [state]);
 
- function salvar() {
-  const enderecoRequest = {
-    endereco,
-    numero,
-    complemento,
-    bairro,
-    cidade,
-    uf: estado,
-    cep,
-    cliente: {
-      id: parseInt(idCliente),
-    },
-  };
+  function salvar() {
+    const enderecoRequest = {
+      endereco,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      uf: estado,
+      cep,
+      cliente: {
+        id: parseInt(idCliente),
+      },
+    };
 
-  if (idEndereco) {
-    // Atualizar endereço
-    axios
-      .put(`http://localhost:8080/api/enderecocliente/${idEndereco}`, enderecoRequest)
+    const sucessoMsg = idEndereco
+      ? "Endereço alterado com sucesso."
+      : "Endereço cadastrado com sucesso.";
+
+    const erroMsg = idEndereco
+      ? "Erro ao atualizar o endereço."
+      : "Erro ao cadastrar o endereço.";
+
+    const request = idEndereco
+      ? axios.put(`http://localhost:8080/api/enderecocliente/${idEndereco}`, enderecoRequest)
+      : axios.post("http://localhost:8080/api/enderecocliente", enderecoRequest);
+
+    request
       .then(() => {
-        console.log("Endereço alterado com sucesso.");
-        navigate("/list-cliente");  // volta pra lista cliente direto
+        toast.success(sucessoMsg);
+        navigate("/list-cliente");
       })
-      .catch((error) => {
-        // tratamento de erro
-      });
-  } else {
-    // Cadastrar novo endereço
-    axios
-      .post("http://localhost:8080/api/enderecocliente", enderecoRequest)
-      .then(() => {
-        console.log("Endereço cadastrado com sucesso.");
-        navigate("/list-cliente");  // volta pra lista cliente direto
-      })
-      .catch((error) => {
-        // tratamento de erro
+      .catch(() => {
+        toast.error(erroMsg);
       });
   }
-}
-
 
   return (
     <div>
