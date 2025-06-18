@@ -1,17 +1,15 @@
 import axios from "axios";
 import InputMask from "comigo-tech-react-input-mask";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
 
 export default function FormEndereco() {
-  const { idCliente } = useParams();
-  const { state } = useLocation();
+  const { idCliente, idEndereco } = useParams();
   const navigate = useNavigate();
 
-  const [idEndereco, setIdEndereco] = useState();
   const [endereco, setEndereco] = useState("");
   const [numero, setNumero] = useState("");
   const [complemento, setComplemento] = useState("");
@@ -21,12 +19,11 @@ export default function FormEndereco() {
   const [cep, setCep] = useState("");
 
   useEffect(() => {
-    if (state?.idEndereco) {
+    if (idEndereco) {
       axios
-        .get(`http://localhost:8080/api/enderecocliente/${state.idEndereco}`)
+        .get(`http://localhost:8080/api/enderecocliente/${idEndereco}`)
         .then((response) => {
           const e = response.data;
-          setIdEndereco(e.id);
           setEndereco(e.endereco);
           setNumero(e.numero);
           setComplemento(e.complemento || "");
@@ -39,9 +36,27 @@ export default function FormEndereco() {
           toast.error("Erro ao carregar endereço.");
         });
     }
-  }, [state]);
+  }, [idEndereco]);
 
-  function salvar() {
+  function atualizarEndereco() {
+    const enderecoRequest = {
+      endereco,
+      numero,
+      complemento,
+      bairro,
+      cidade,
+      uf: estado,
+      cep,
+      clienteId: parseInt(idCliente),
+    };
+
+    return axios.put(
+      `http://localhost:8080/api/enderecocliente/${idEndereco}`,
+      enderecoRequest
+    );
+  }
+
+  function criarEndereco() {
     const enderecoRequest = {
       endereco,
       numero,
@@ -55,6 +70,15 @@ export default function FormEndereco() {
       },
     };
 
+    return axios.post(
+      "http://localhost:8080/api/enderecocliente",
+      enderecoRequest
+    );
+  }
+
+  function salvar() {
+    const request = idEndereco ? atualizarEndereco() : criarEndereco();
+
     const sucessoMsg = idEndereco
       ? "Endereço alterado com sucesso."
       : "Endereço cadastrado com sucesso.";
@@ -62,10 +86,6 @@ export default function FormEndereco() {
     const erroMsg = idEndereco
       ? "Erro ao atualizar o endereço."
       : "Erro ao cadastrar o endereço.";
-
-    const request = idEndereco
-      ? axios.put(`http://localhost:8080/api/enderecocliente/${idEndereco}`, enderecoRequest)
-      : axios.post("http://localhost:8080/api/enderecocliente", enderecoRequest);
 
     request
       .then(() => {

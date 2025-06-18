@@ -216,8 +216,9 @@ export default function ListCliente() {
                           color="green"
                           title="Editar endereço"
                           as={Link}
-                          to={`/form-endereco/${clienteSelecionado?.id}`}
+                          to={`/form-endereco/${clienteSelecionado?.id}/${end.id}`}
                         />
+
                         <Button
                           size="mini"
                           icon="trash"
