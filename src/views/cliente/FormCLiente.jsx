@@ -116,7 +116,7 @@ export default function FormCliente() {
               <Form.Group>
                 <Form.Input fluid label="Fone Celular" width={6}>
                   <InputMask
-                    mask="(99) 9999.9999"
+                    mask="(99) 99999-9999"
                     value={foneCelular}
                     onChange={(e) => setFoneCelular(e.target.value)}
                   />
@@ -124,7 +124,7 @@ export default function FormCliente() {
 
                 <Form.Input fluid label="Fone Fixo" width={6}>
                   <InputMask
-                    mask="(99) 9999.9999"
+                    mask="(99) 99999-9999"
                     value={foneFixo}
                     onChange={(e) => setFoneFixo(e.target.value)}
                   />
