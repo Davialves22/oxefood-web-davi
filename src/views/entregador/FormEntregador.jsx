@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
 import InputMask from "comigo-tech-react-input-mask";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Button,
   Container,
   Divider,
   Form,
-  Icon,
   FormSelect,
+  Icon,
 } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
-import axios from "axios";
-import moment from "moment";
-import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from "../../views/util/Util";
 
 const options = [
   { key: "", text: "", value: "" },
@@ -111,9 +112,17 @@ export default function FormEntregador() {
         .post("http://localhost:8080/api/entregador", entregadorRequest)
         .then((response) => {
           console.log("Entregador cadastrado com sucesso.");
+          notifySuccess("Entregador cadastrado com sucesso.");
         })
         .catch((error) => {
           console.log("Erro ao incluir o Entregador.");
+          if (error.response.data.errors != undefined) {
+            for (let i = 0; i < error.response.data.errors.length; i++) {
+              notifyError(error.response.data.errors[i].defaultMessage);
+            }
+          } else {
+            notifyError(error.response.data.message);
+          }
         });
     }
   }
