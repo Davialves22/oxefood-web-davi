@@ -10,14 +10,40 @@ import ListEntregador from "./views/entregador/ListEntregador";
 import Home from "./views/home/Home";
 import FormProduto from "./views/produto/FormProduto";
 import ListProduto from "./views/produto/ListProduto";
+import FormLogin from "./views/Login/FormLogin";
+import { ProtectedRoute } from "./views/util/ProtectedRoute";
 
 function Rotas() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="form-cliente" element={<FormCliente />} />
-        <Route path="list-cliente" element={<ListCliente />} />
+        <Route path="/" element={<FormLogin />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="form-cliente"
+          element={
+            <ProtectedRoute>
+              <FormCliente />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="list-cliente"
+          element={
+            <ProtectedRoute>
+              <ListCliente />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="form-produto" element={<FormProduto />} />
         <Route path="list-produto" element={<ListProduto />} />
