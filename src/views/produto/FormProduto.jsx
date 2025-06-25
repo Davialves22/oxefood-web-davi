@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
 import InputMask from "comigo-tech-react-input-mask";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
-import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
+import { notifyError, notifySuccess } from "../../views/util/Util";
 
 export default function FormProduto() {
   const { state } = useLocation();
@@ -73,9 +74,17 @@ export default function FormProduto() {
         .post("http://localhost:8080/api/produto", produtoRequest)
         .then((response) => {
           console.log("produto cadastrado com sucesso.");
+          notifySuccess("Produto cadastrado com sucesso.");
         })
         .catch((error) => {
           console.log("Erro ao incluir o produto.");
+          if (error.response.data.errors != undefined) {
+            for (let i = 0; i < error.response.data.errors.length; i++) {
+              notifyError(error.response.data.errors[i].defaultMessage);
+            }
+          } else {
+            notifyError(error.response.data.message);
+          }
         });
     }
   }
