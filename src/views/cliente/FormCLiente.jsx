@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
+import { notifyError, notifySuccess } from "../../views/util/Util";
 
 export default function FormCliente() {
   const { state } = useLocation();
@@ -70,9 +71,17 @@ export default function FormCliente() {
           setClienteCadastrado(true);
           setMostrarPerguntaEndereco(true);
           console.log("Cliente cadastrado com sucesso. ID:", id);
+          notifySuccess("Cliente cadastrado com sucesso.");
         })
         .catch((error) => {
           console.error("Erro ao incluir o cliente:", error);
+          if (error.response.data.errors != undefined) {
+            for (let i = 0; i < error.response.data.errors.length; i++) {
+              notifyError(error.response.data.errors[i].defaultMessage);
+            }
+          } else {
+            notifyError(error.response.data.message);
+          }
         });
     }
   }
