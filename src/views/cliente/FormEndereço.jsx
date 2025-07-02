@@ -47,7 +47,8 @@ export default function FormEndereco() {
       cidade,
       uf: estado,
       cep,
-      clienteId: parseInt(idCliente),
+      clienteId: 
+      parseInt(idCliente),
     };
 
     return axios.put(

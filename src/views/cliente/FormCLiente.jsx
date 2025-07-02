@@ -53,12 +53,23 @@ export default function FormCliente() {
       // Alteração
       axios
         .put(`http://localhost:8080/api/cliente/${idCliente}`, clienteRequest)
-        .then(() => {
-          console.log("Cliente alterado com sucesso.");
-          navigate("/list-cliente");
+       .then((response) => {
+          notifySuccess("Cliente alterado com sucesso.");
+          const id = response.data.id;
+          setIdNovoCliente(id);
+          setClienteCadastrado(true);
+          setMostrarPerguntaEndereco(true);
+          console.log("Cliente cadastrado com sucesso. ID:", id);
         })
-        .catch(() => {
-          console.log("Erro ao alterar um cliente.");
+        .catch((error) => {
+          console.error("Erro ao alterar o cliente:", error);
+          if (error.response.data.errors != undefined) {
+            for (let i = 0; i < error.response.data.errors.length; i++) {
+              notifyError(error.response.data.errors[i].defaultMessage);
+            }
+          } else {
+            notifyError(error.response.data.message);
+          }
         });
     } else {
       // Cadastro
@@ -66,6 +77,7 @@ export default function FormCliente() {
       axios
         .post("http://localhost:8080/api/cliente", clienteRequest)
         .then((response) => {
+          notifySuccess("Cliente cadastrado com sucesso.");
           const id = response.data.id;
           setIdNovoCliente(id);
           setClienteCadastrado(true);
