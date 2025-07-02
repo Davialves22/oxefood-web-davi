@@ -12,12 +12,6 @@ import {
   Icon,
 } from "semantic-ui-react";
 import MenuSistema from "../../MenuSistema";
-<<<<<<< HEAD
-=======
-import axios from "axios";
-import moment from "moment";
-import { Link, useLocation } from "react-router-dom";
->>>>>>> c043a3f19f56d626d18d54119279f706a1f82673
 import { notifyError, notifySuccess } from "../../views/util/Util";
 
 const options = [
@@ -119,7 +113,7 @@ export default function FormEntregador() {
       //Cadastro:
       axios
         .post("http://localhost:8080/api/entregador", entregadorRequest)
-<<<<<<< HEAD
+
         .then((response) => {
           console.log("Entregador cadastrado com sucesso.");
           notifySuccess("Entregador cadastrado com sucesso.");
@@ -136,28 +130,6 @@ export default function FormEntregador() {
         });
     }
   }
-=======
-       .then((response) => {
-             notifySuccess("Entregador cadastrado com sucesso.");
-             const id = response.data.id;
-             setIdNovoEntregador(id);
-             setEntregadorCadastrado(true);
-             console.log("Entregador cadastrado com sucesso. ID:", id);
-           })
-           .catch((error) => {
-             console.error("Erro ao incluir o Entregador:", error);
-             if (error.response.data.errors != undefined) {
-               for (let i = 0; i < error.response.data.errors.length; i++) {
-                 notifyError(error.response.data.errors[i].defaultMessage);
-               }
-             } else {
-               notifyError(error.response.data.message);
-             }
-           });
-       }
-     }
->>>>>>> c043a3f19f56d626d18d54119279f706a1f82673
-
   return (
     <div>
       <MenuSistema tela={"entregador"} />
