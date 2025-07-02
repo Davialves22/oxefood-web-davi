@@ -8,9 +8,9 @@ import ListCupom from "./views/cupom/ListCupom";
 import FormEntregador from "./views/entregador/FormEntregador";
 import ListEntregador from "./views/entregador/ListEntregador";
 import Home from "./views/home/Home";
+import FormLogin from "./views/Login/FormLogin";
 import FormProduto from "./views/produto/FormProduto";
 import ListProduto from "./views/produto/ListProduto";
-import FormLogin from "./views/Login/FormLogin";
 import { ProtectedRoute } from "./views/util/ProtectedRoute";
 
 function Rotas() {
